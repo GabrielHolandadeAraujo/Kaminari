@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Login</class>
+ <widget class="QMainWindow" name="Login">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -91,7 +91,26 @@
       <widget class="QLineEdit" name="lineEdit"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="lineEdit_2">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+         <underline>false</underline>
+         <strikeout>false</strikeout>
+        </font>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText</set>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
