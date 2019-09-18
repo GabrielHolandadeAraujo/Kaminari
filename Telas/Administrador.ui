@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1363</width>
-    <height>899</height>
+    <width>1266</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>10</y>
+      <x>0</x>
+      <y>70</y>
       <width>1231</width>
       <height>821</height>
      </rect>
@@ -36,7 +36,7 @@
      <enum>QTabWidget::North</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -47,7 +47,7 @@
        <rect>
         <x>140</x>
         <y>110</y>
-        <width>186</width>
+        <width>225</width>
         <height>441</height>
        </rect>
       </property>
@@ -647,14 +647,35 @@ background-color: rgb(204, 0, 0);</string>
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton_6">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>30</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Sair</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1363</width>
-     <height>25</height>
+     <width>1266</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
