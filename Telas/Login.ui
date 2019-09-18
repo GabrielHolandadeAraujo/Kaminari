@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1019</width>
-    <height>883</height>
+    <height>818</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -102,7 +102,7 @@
         </font>
        </property>
        <property name="inputMethodHints">
-        <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText</set>
+        <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
        </property>
        <property name="text">
         <string/>
@@ -123,6 +123,9 @@
       <height>51</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Login</string>
     </property>
@@ -135,6 +138,9 @@
       <width>151</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Cadastre-se</string>
@@ -188,6 +194,9 @@
       <height>27</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Esqueceu a Senha?</string>
     </property>
@@ -199,7 +208,7 @@
      <x>0</x>
      <y>0</y>
      <width>1019</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
