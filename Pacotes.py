@@ -4,7 +4,7 @@ class Pacote(object):
     _porcmqua = 0.01
     _porpeso = 0.20
     _contador = 0
-    def __init__(self, peso, altura, profundidade, comprimento, origem, destino, tipo, fragil):
+    def __init__(self, peso, altura, profundidade, comprimento, remetente, destinatario, origem, destino, tipo, fragil):
         self._peso = peso    
         self._altura = altura
         self._profundidade = profundidade
@@ -102,7 +102,7 @@ class Pacote(object):
 
     @property
     def tipo(self):
-        return self._tipo
+        return self._expresso
 
     @property
     def preco(self):

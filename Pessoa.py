@@ -1,20 +1,21 @@
 import datetime
 from Pacotes import Pacote
 class Pessoa(object):
-    __slots__ = ['_nome','_end','_cpf','_sexo','_nasc','_user','_pass', '_pacotes']
+    __slots__ = ['_nome','_end','_cpf','_sexo','_nasc','_user','_pass', '_pacotes','_email']
 
-    def __init__(self,nome,end,cpf,sexo,dataNasc):
+    def __init__(self,nome,end,cpf,sexo,dataNasc,email):
         self._nome=nome
         self._end=end
         self._cpf=cpf
         self._sexo=sexo
         self._nasc=dataNasc
+        self._email=email
         self._pacotes=[] 
         self._user=None
-        self._pass=None
+        self._pass=None 
     
     def adiconaPacote(self, pacote):
-        if isinstance(pacote, Pacotes):
+        if isinstance(pacote, Pacote):
             self._pacotes.append(pacote)
             return True
         else:
