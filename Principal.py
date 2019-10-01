@@ -10,6 +10,7 @@ import PyQt5
 import sys
 import os
 from PyQt5.QtCore import pyqtSlot
+import socket
 
 class UI_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
@@ -58,6 +59,8 @@ class Main(QMainWindow, UI_Main):
         self.tela_login.EsqueciButton.clicked.connect(self.esqueci)
         self.tela_login.LoginButton.clicked.connect(self.entrar)
         self.tela_login.CadButton.clicked.connect(self.criarConta)
+        self.tela_cadastro.voltar.clicked.connect(self.voltaLog)
+        self.tela_recup.voltar.clicked.connect(self.voltaLog)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -77,9 +80,22 @@ class Main(QMainWindow, UI_Main):
     def esqueci(self):
         self.QtStack.setCurrentIndex(5)
 
+    def voltaLog(self):
+        self.QtStack.setCurrentIndex(0)
+    
     def entrar(self):
+        enviar = 'LGIN'
+        recebe = ''
         if self.tela_login.radioButton.isChecked():
-            self.QtStack.setCurrentIndex(2)
+            enviar = enviar + ',US' + ',' + self.tela_login.lineEdit.text() +  ',' + self.tela_login.lineEdit_2.text()
+            client_socket.send(menviar.encode())
+            recebe = client_socket.recv(1024)
+            if('T' in recebe.decode()):
+                self.QtStack.setCurrentIndex(2)
+            elif('Pass' in recebe.decode()):
+                QtWidgets.QMessageBox.information('Senha Inválida!')
+            elif('User' in recebe.decode()):
+                QtWidgets.QMessageBox.information('Usuário Inválido!')
         elif self.tela_login.radioButton_2.isChecked():
             self.QtStack.setCurrentIndex(4)
         elif self.tela_login.radioButton_3.isChecked():
@@ -110,6 +126,11 @@ class Main(QMainWindow, UI_Main):
         self.QtStack.setCurrentIndex(2)
 
 if __name__ == '__main__':
+    ip = input('Digite o ip da concexão:')
+    port = 7009
+    addr = ((ip, port))
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(addr)
     app = QApplication(sys.argv)
     show_main = Main()
     sys.exit(app.exec_())

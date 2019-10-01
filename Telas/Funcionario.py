@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'Funcionario.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Tela_Funcionario(object):
     def setupUi(self, Tela_Funcionario):
@@ -15,7 +17,7 @@ class Ui_Tela_Funcionario(object):
         self.centralwidget = QtWidgets.QWidget(Tela_Funcionario)
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(70, 60, 1221, 761))
+        self.tabWidget.setGeometry(QtCore.QRect(50, 50, 1221, 761))
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -110,7 +112,7 @@ class Ui_Tela_Funcionario(object):
         self.radioButton_4.setObjectName("radioButton_4")
         self.horizontalLayout_2.addWidget(self.radioButton_4)
         self.verticalLayoutWidget = QtWidgets.QWidget(self.tab)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(100, 380, 243, 211))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(40, 370, 296, 211))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -171,14 +173,14 @@ class Ui_Tela_Funcionario(object):
         self.textBrowser.setGeometry(QtCore.QRect(910, 630, 291, 41))
         self.textBrowser.setObjectName("textBrowser")
         self.label_12 = QtWidgets.QLabel(self.tab)
-        self.label_12.setGeometry(QtCore.QRect(740, 630, 141, 41))
+        self.label_12.setGeometry(QtCore.QRect(730, 630, 151, 41))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.label_12.setFont(font)
         self.label_12.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_12.setObjectName("label_12")
         self.label_15 = QtWidgets.QLabel(self.tab)
-        self.label_15.setGeometry(QtCore.QRect(740, 670, 141, 41))
+        self.label_15.setGeometry(QtCore.QRect(720, 670, 161, 41))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.label_15.setFont(font)
@@ -226,7 +228,7 @@ class Ui_Tela_Funcionario(object):
         self.pushButton_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_2.setObjectName("pushButton_2")
         self.verticalLayoutWidget_5 = QtWidgets.QWidget(self.tab_2)
-        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(610, 269, 111, 101))
+        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(600, 270, 125, 101))
         self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
@@ -271,7 +273,7 @@ class Ui_Tela_Funcionario(object):
         self.pushButton_3.setObjectName("pushButton_3")
         Tela_Funcionario.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Tela_Funcionario)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1356, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1356, 26))
         self.menubar.setObjectName("menubar")
         Tela_Funcionario.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(Tela_Funcionario)
@@ -279,7 +281,7 @@ class Ui_Tela_Funcionario(object):
         Tela_Funcionario.setStatusBar(self.statusbar)
 
         self.retranslateUi(Tela_Funcionario)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Tela_Funcionario)
 
     def retranslateUi(self, Tela_Funcionario):
@@ -323,4 +325,3 @@ if __name__ == "__main__":
     ui.setupUi(Tela_Funcionario)
     Tela_Funcionario.show()
     sys.exit(app.exec_())
-

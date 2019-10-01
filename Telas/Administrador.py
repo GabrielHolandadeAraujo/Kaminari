@@ -2,20 +2,22 @@
 
 # Form implementation generated from reading ui file 'Administrador.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_TelaAdmin(object):
     def setupUi(self, TelaAdmin):
         TelaAdmin.setObjectName("TelaAdmin")
-        TelaAdmin.resize(1266, 598)
+        TelaAdmin.resize(1266, 863)
         self.centralwidget = QtWidgets.QWidget(TelaAdmin)
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 70, 1231, 821))
+        self.tabWidget.setGeometry(QtCore.QRect(-10, 10, 1231, 821))
         self.tabWidget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.tabWidget.setFocusPolicy(QtCore.Qt.TabFocus)
         self.tabWidget.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -24,7 +26,7 @@ class Ui_TelaAdmin(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.tab)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(140, 110, 225, 441))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(100, 110, 225, 441))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -120,7 +122,7 @@ class Ui_TelaAdmin(object):
         self.radioButton_2.setObjectName("radioButton_2")
         self.horizontalLayout.addWidget(self.radioButton_2)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.tab)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(350, 520, 243, 31))
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(350, 520, 255, 31))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -243,7 +245,7 @@ class Ui_TelaAdmin(object):
         self.radioButton_8.setGeometry(QtCore.QRect(330, 290, 115, 22))
         self.radioButton_8.setObjectName("radioButton_8")
         self.label_15 = QtWidgets.QLabel(self.tab_3)
-        self.label_15.setGeometry(QtCore.QRect(255, 156, 211, 31))
+        self.label_15.setGeometry(QtCore.QRect(245, 156, 221, 31))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.label_15.setFont(font)
@@ -275,7 +277,7 @@ class Ui_TelaAdmin(object):
         TelaAdmin.setStatusBar(self.statusbar)
 
         self.retranslateUi(TelaAdmin)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(TelaAdmin)
 
     def retranslateUi(self, TelaAdmin):
@@ -324,4 +326,3 @@ if __name__ == "__main__":
     ui.setupUi(TelaAdmin)
     TelaAdmin.show()
     sys.exit(app.exec_())
-

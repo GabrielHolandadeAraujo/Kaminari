@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'Esqueci.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_EsqueciaSenha(object):
     def setupUi(self, EsqueciaSenha):
@@ -41,9 +43,17 @@ class Ui_EsqueciaSenha(object):
         self.lineEdit = QtWidgets.QLineEdit(self.layoutWidget)
         self.lineEdit.setObjectName("lineEdit")
         self.horizontalLayout.addWidget(self.lineEdit)
+        self.voltar = QtWidgets.QToolButton(self.centralwidget)
+        self.voltar.setGeometry(QtCore.QRect(280, 80, 61, 51))
+        self.voltar.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../images/back_12955.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.voltar.setIcon(icon)
+        self.voltar.setIconSize(QtCore.QSize(28, 28))
+        self.voltar.setObjectName("voltar")
         EsqueciaSenha.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(EsqueciaSenha)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1354, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1354, 26))
         self.menubar.setObjectName("menubar")
         EsqueciaSenha.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(EsqueciaSenha)
@@ -69,4 +79,3 @@ if __name__ == "__main__":
     ui.setupUi(EsqueciaSenha)
     EsqueciaSenha.show()
     sys.exit(app.exec_())
-

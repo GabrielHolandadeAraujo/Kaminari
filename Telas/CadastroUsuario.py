@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'CadastroUsuario.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_CadastroUsuario(object):
     def setupUi(self, CadastroUsuario):
@@ -136,6 +138,14 @@ class Ui_CadastroUsuario(object):
         self.radioButton_2 = QtWidgets.QRadioButton(self.layoutWidget3)
         self.radioButton_2.setObjectName("radioButton_2")
         self.horizontalLayout.addWidget(self.radioButton_2)
+        self.voltar = QtWidgets.QToolButton(self.centralwidget)
+        self.voltar.setGeometry(QtCore.QRect(20, 10, 61, 51))
+        self.voltar.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../images/back_12955.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.voltar.setIcon(icon)
+        self.voltar.setIconSize(QtCore.QSize(28, 28))
+        self.voltar.setObjectName("voltar")
         CadastroUsuario.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(CadastroUsuario)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -173,4 +183,3 @@ if __name__ == "__main__":
     ui.setupUi(CadastroUsuario)
     CadastroUsuario.show()
     sys.exit(app.exec_())
-
