@@ -36,7 +36,7 @@ users=[]
 funcs=[]
 admins=[]
 mess=''
-while(mess != 'exit'):
+while('exit' not in mess):
     retorno=[]
     recebe = con.recv(1024) #define que os pacotes recebidos sao de ate 1024 bytes
     print ('mensagem recebida: '+ recebe.decode())
@@ -55,8 +55,9 @@ while(mess != 'exit'):
                 else:
                     retorno.append('False')
                     retorno.append('Pass')
-            retorno.append('False')
-            retorno.append('User')
+            else:
+                retorno.append('False')
+                retorno.append('User')
         elif mess[1] == 'FC':
             user=cadastrado(mess[2],funcs)
             if user != False:
@@ -65,8 +66,9 @@ while(mess != 'exit'):
                 else:
                     retorno.append('False')
                     retorno.append('Pass')
-            retorno.append('False')
-            retorno.append('User')
+            else:
+                retorno.append('False')
+                retorno.append('User')
         elif mess[1] == 'AD':
             user=cadastrado(mess[2],admins)
             if user != False:
@@ -75,8 +77,9 @@ while(mess != 'exit'):
                 else:
                     retorno.append('False')
                     retorno.append('Pass')
-            retorno.append('False')
-            retorno.append('User')
+            else:
+                retorno.append('False')
+                retorno.append('User')
         else:
             retorno.append('False')
             retorno.append('type')    
@@ -109,7 +112,7 @@ while(mess != 'exit'):
                 if cadastro == False:
                     Cpef=CPF(cpf,funcs)
                     if Cpef == False:
-                        pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw))
+                        pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
                         if isinstance(pessoa,Pessoa):
                             funcs.append(pessoa)
                             retorno.append('True')
@@ -126,9 +129,9 @@ while(mess != 'exit'):
                 if cadastro == False:
                     Cpef=CPF(cpf,admins)
                     if Cpef == False:
-                        pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw))
+                        pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
                         if isinstance(pessoa,Pessoa):
-                            users.append(pessoa)
+                            admins.append(pessoa)
                             retorno.append('True')
                         else:
                             retorno.append(pessoa)
