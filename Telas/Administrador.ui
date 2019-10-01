@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1266</width>
-    <height>598</height>
+    <height>863</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
      <enum>QTabWidget::North</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -45,7 +45,7 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>100</x>
         <y>110</y>
         <width>225</width>
         <height>441</height>
@@ -251,7 +251,7 @@
        <rect>
         <x>350</x>
         <y>520</y>
-        <width>243</width>
+        <width>255</width>
         <height>31</height>
        </rect>
       </property>
