@@ -277,7 +277,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../Slides/biblioteca-pyqt5-master/telas/images/back_12955.png</normaloff>../../../Slides/biblioteca-pyqt5-master/telas/images/back_12955.png</iconset>
+      <normaloff>../images/back_12955.png</normaloff>../images/back_12955.png</iconset>
     </property>
     <property name="iconSize">
      <size>
