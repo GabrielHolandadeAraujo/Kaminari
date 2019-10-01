@@ -17,14 +17,14 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>60</y>
+      <x>50</x>
+      <y>50</y>
       <width>1221</width>
       <height>761</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -211,9 +211,9 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>380</y>
-        <width>243</width>
+        <x>40</x>
+        <y>370</y>
+        <width>296</width>
         <height>211</height>
        </rect>
       </property>
@@ -337,9 +337,9 @@ color: rgb(255, 255, 255);</string>
      <widget class="QLabel" name="label_12">
       <property name="geometry">
        <rect>
-        <x>740</x>
+        <x>730</x>
         <y>630</y>
-        <width>141</width>
+        <width>151</width>
         <height>41</height>
        </rect>
       </property>
@@ -358,9 +358,9 @@ color: rgb(255, 255, 255);</string>
      <widget class="QLabel" name="label_15">
       <property name="geometry">
        <rect>
-        <x>740</x>
+        <x>720</x>
         <y>670</y>
-        <width>141</width>
+        <width>161</width>
         <height>41</height>
        </rect>
       </property>
@@ -509,9 +509,9 @@ color: rgb(255, 255, 255);</string>
      <widget class="QWidget" name="verticalLayoutWidget_5">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>269</y>
-        <width>111</width>
+        <x>600</x>
+        <y>270</y>
+        <width>125</width>
         <height>101</height>
        </rect>
       </property>
@@ -612,7 +612,7 @@ color: rgb(255, 255, 255);</string>
      <x>0</x>
      <y>0</y>
      <width>1356</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
