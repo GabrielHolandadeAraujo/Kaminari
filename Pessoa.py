@@ -3,7 +3,7 @@ from Pacotes import Pacote
 class Pessoa(object):
     __slots__ = ['_nome','_end','_cpf','_sexo','_nasc','_user','_pass', '_pacotes','_email']
 
-    def __init__(self,nome,end,cpf,sexo,dataNasc,email):
+    def __init__(self,nome,end,cpf,sexo,dataNasc,email,user,pswd):
         self._nome=nome
         self._end=end
         self._cpf=cpf
@@ -11,8 +11,8 @@ class Pessoa(object):
         self._nasc=dataNasc
         self._email=email
         self._pacotes=[] 
-        self._user=None
-        self._pass=None 
+        self._user=user
+        self._pass=pswd 
     
     def adiconaPacote(self, pacote):
         if isinstance(pacote, Pacote):
@@ -81,4 +81,12 @@ class Pessoa(object):
     def Idade(self):
         temp = (datetime.datetime.now() - self._nasc).days
         return temp//365
+
+    @property
+    def User(self):
+        return self._user
+
+    @property
+    def Pass(self):
+        return self._pass
 

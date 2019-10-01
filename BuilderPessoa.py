@@ -8,6 +8,9 @@ class buildP(object):
         self._cpf=None
         self._sexo=None
         self._nasc=None
+        self._email=None
+        self._user=None
+        self._pass=None
 
     def Nome(self,nome):
         if nome==type(str) or len(nome)<=80:
@@ -34,22 +37,55 @@ class buildP(object):
         if (isinstance(data,datetime.datetime)and(temp.days//365)>=18):
             self._nasc=data
         return self
+
+    def User(self,user):
+        if len(user) > 5:
+            self._user=user
+        return self
+
+    def Pass(self,pswd):
+        if len(pswd) > 5:
+            self._pass=pswd
+        return self
+
+    def Email(self,email):
+        if '@' in email and '.' in email:
+            self._email=email
+        return self
     
     def Constroi(self):
+        Err=['Err']
         if self._nome == None:
-            raise ValueError()
+            Err.append('Nome')
+            return Err
         if self._end == None:
-            raise ValueError()
+            Err.append('End')
+            return Err
         if self._cpf == None:
-            raise ValueError()
+            Err.append('CPF')
+            return Err
         if self._sexo == None:
-            raise ValueError()
+            Err.append('Sexo')
+            return Err
         if self._nasc == None:
-            raise ValueError()
+            Err.append('Nasc')
+            return Err
+        if self._user == None:
+            Err.append('User')
+            return Err
+        if self._pass == None:
+            Err.append('Pass')
+            return Err
+        if self._email == None:
+            Err.append("Email")
+            return Err
         return Pessoa(
             nome=self._nome,
             end=self._end,
             cpf=self._cpf,
             sexo=self._sexo,
-            dataNasc=self._nasc
+            dataNasc=self._nasc,
+            email=self._email,
+            user=self._user,
+            pswd=self._pass
         )

@@ -112,12 +112,3 @@ class Pacote(object):
     def historico(self):
         return self._historico
 
-
-p1 = Pacote(4, 10, 12, 8, 'Curitiba', 'Picos', True, True)
-p2 = Pacote(4, 30, 19, 5, 'Teresina', 'Floriano', False, False)
-p1.atualizaHistorico('Chico Santo', 'Teresina')
-p1.atualizaHistorico('Teresina', 'Picos')
-p1.mostraHistorico()
-
-print("Peso: {}\nDimensoes: {}x{}x{}\nOrigem: {}\nDestino {}\nPreco: {}\nCodigo: {}\n".format(p1.peso,p1.altura,p1.profundidade,p1.comprimento, p1.origem, p1.destino, p1.preco, p1.codigo))
-print("Peso: {}\nDimensoes: {}x{}x{}\nOrigem: {}\nDestino {}\nPreco: {}\nCodigo: {}\n".format(p2.peso,p2.altura,p2.profundidade,p2.comprimento, p2.origem, p2.destino, p2.preco, p2.codigo))
