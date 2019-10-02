@@ -88,7 +88,7 @@ class Main(QMainWindow, UI_Main):
         recebe = ''
         if self.tela_login.radioButton.isChecked():
             enviar = enviar + ',US' + ',' + self.tela_login.lineEdit.text() +  ',' + self.tela_login.lineEdit_2.text()
-            client_socket.send(menviar.encode())
+            client_socket.send(enviar.encode())
             recebe = client_socket.recv(1024)
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(2)
@@ -97,9 +97,25 @@ class Main(QMainWindow, UI_Main):
             elif('User' in recebe.decode()):
                 QtWidgets.QMessageBox.information('Usuário Inválido!')
         elif self.tela_login.radioButton_2.isChecked():
-            self.QtStack.setCurrentIndex(4)
+            enviar = enviar + ',FC' + ',' + self.tela_login.lineEdit.text() +  ',' + self.tela_login.lineEdit_2.text()
+            client_socket.send(enviar.encode())
+            recebe = client_socket.recv(1024)
+            if('T' in recebe.decode()):
+                self.QtStack.setCurrentIndex(4)
+            elif('Pass' in recebe.decode()):
+                QtWidgets.QMessageBox.information('Senha Inválida!')
+            elif('User' in recebe.decode()):
+                QtWidgets.QMessageBox.information('Usuário Inválido!')
         elif self.tela_login.radioButton_3.isChecked():
-            self.QtStack.setCurrentIndex(3)
+            enviar = enviar + ',AD' + ',' + self.tela_login.lineEdit.text() +  ',' + self.tela_login.lineEdit_2.text()
+            client_socket.send(enviar.encode())
+            recebe = client_socket.recv(1024)
+            if('T' in recebe.decode()):
+                self.QtStack.setCurrentIndex(3)
+            elif('Pass' in recebe.decode()):
+                QtWidgets.QMessageBox.information('Senha Inválida!')
+            elif('User' in recebe.decode()):
+                QtWidgets.QMessageBox.information('Usuário Inválido!')
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de conta')
         
