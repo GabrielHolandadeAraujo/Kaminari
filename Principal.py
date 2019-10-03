@@ -86,6 +86,27 @@ class Main(QMainWindow, UI_Main):
     def voltaLog(self):
         self.QtStack.setCurrentIndex(0)
     
+    def calculaPreco(self):
+        envia = ''
+        recebe = ''
+        peso, alt, comp, prof = self.tela_usuario.lineEdit_6.text(), self.tela_usuario.lineEdit_4.text(), self.tela_usuario.lineEdit.text(), self.tela_usuario.lineEdit_2.text()
+        if(self.tela_cadastro.radioButton.isChecked()):
+            frag = 'Não'
+        elif(self.tela_cadastro.radioButton_2.isChecked()):
+            frag = 'Sim'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','O pacote é fragil?')
+        if(self.tela_cadastro.radioButton_3.isChecked()):
+            tipo = 'Normal'
+        elif(self.tela_cadastro.radioButton_4.isChecked()):
+            tipo = 'Expresso'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de entrega!')
+        envia = 'PAC,CAL,{},{},{},{},{},{}'.format(peso, alt, comp, prof, frag, tipo)
+        client_socket.send(envia.encode())
+        recebe = client_socket.recv(1024)
+        self.tela_usuario.calculaFrete.setText(recebe.decode())
+
     def enviaEmail(self):
         envia = 'Email' + ',' + self.tela_recup.lineEdit.text()
         if('@' in self.tela_recup.lineEdit.text() and '.' in self.tela_recup.lineEdit.text()):

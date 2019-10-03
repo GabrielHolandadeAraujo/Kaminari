@@ -3,6 +3,7 @@ from Pessoa import Pessoa
 import datetime
 import getpass
 import socket
+from Pacotes import Pacote
 
 def cadastrado(user,lista):
     for x in lista:
@@ -146,7 +147,18 @@ while('exit' not in mess):
             retorno.append('Desc')
     elif(mess[0] == 'Email'):
         email = mess[1]
-    
+    elif(mess[0] == 'PAC'):
+        #Teste pacote [PAC, CAL, Peso, Altura, Comprimento, Profundidade, Fragil, Tipo]
+        if(len(mess) == 8):
+            peso, alt, comp, prof, frag, tipo = mess[2], mess[3], mess[4], mess[5], mess[6], mess[7]
+            if(mess[1] == 'CAL'):
+                pak = Pacote(peso, alt, prof, comp, None, None, None, None, tipo, frag)
+                retorno.append(str(pak.preco)       
+        else:
+            retorno.append('False')
+            retorno.append('Desc')
+
+
     try:
         env = '{},{}'.format(retorno[0],retorno[1])
     except:
