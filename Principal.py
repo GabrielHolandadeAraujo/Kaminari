@@ -61,6 +61,7 @@ class Main(QMainWindow, UI_Main):
         self.tela_login.CadButton.clicked.connect(self.criarConta)
         self.tela_cadastro.voltar.clicked.connect(self.voltaLog)
         self.tela_recup.voltar.clicked.connect(self.voltaLog)
+        self.tela_cadastro.cadUsuario.clicked.connect(self.cadastrar)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -83,6 +84,31 @@ class Main(QMainWindow, UI_Main):
     def voltaLog(self):
         self.QtStack.setCurrentIndex(0)
     
+    def cadastrar(self):
+        recebe = ''
+        envia = ''
+        nome, cpf, email, end, nasc, user, pas = self.tela_cadastro.lineEdit.text(), self.tela_cadastro.lineEdit_2.text(), self.tela_cadastro.lineEdit_4.text(), self.tela_cadastro.lineEdit_6.text(), self.tela_cadastro.lineEdit_5.text(), self.tela_cadastro.lineEdit_7.text(), self.tela_cadastro.lineEdit_8.text()
+        if(self.tela_cadastro.radioButton.isChecked()):
+            sexo = 'M'
+        elif(self.tela_cadastro.radioButton_2.isChecked()):
+            sexo = 'F'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Selecione o sexo!')
+        envia = 'CAD' + ',' + 'US' + ',' + nome + ',' + cpf + ',' + sexo + ',' + email + ',' + end + ',' + nasc + ',' + user + ',' + pas
+        #envia = 'CAD,US,{},{},{},{},{},{},{},{}'.format(nome, cpf, sexo, email, end, nasc, user, pas)
+        client_socket.send(envia.encode())
+        recebe = client_socket.recv(1024)
+        if('T' in recebe.decode()):
+            QtWidgets.QMessageBox.information(None,'Confirmação','Cadastrado realizado com sucesso!')
+            self.QtStack.setCurrentIndex(0)
+        elif('User' in recebe.decode()):
+            QtWidgets.QMessageBox.information(None,'Erro','Esse usuário já existe!')
+        elif('CPF' in recebe.decode()):
+            QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
+
+
     def entrar(self):
         enviar = 'LGIN'
         recebe = ''
@@ -93,9 +119,9 @@ class Main(QMainWindow, UI_Main):
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(2)
             elif('Pass' in recebe.decode()):
-                QtWidgets.QMessageBox.information('Senha Inválida!')
+                QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
-                QtWidgets.QMessageBox.information('Usuário Inválido!')
+                QtWidgets.QMessageBox.information(None,'Erro','Usuário Inválido!')
         elif self.tela_login.radioButton_2.isChecked():
             enviar = enviar + ',FC' + ',' + self.tela_login.lineEdit.text() +  ',' + self.tela_login.lineEdit_2.text()
             client_socket.send(enviar.encode())
@@ -103,9 +129,9 @@ class Main(QMainWindow, UI_Main):
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(4)
             elif('Pass' in recebe.decode()):
-                QtWidgets.QMessageBox.information('Senha Inválida!')
+                QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
-                QtWidgets.QMessageBox.information('Usuário Inválido!')
+                QtWidgets.QMessageBox.information(None,'Erro','Usuário Inválido!')
         elif self.tela_login.radioButton_3.isChecked():
             enviar = enviar + ',AD' + ',' + self.tela_login.lineEdit.text() +  ',' + self.tela_login.lineEdit_2.text()
             client_socket.send(enviar.encode())
@@ -113,9 +139,9 @@ class Main(QMainWindow, UI_Main):
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(3)
             elif('Pass' in recebe.decode()):
-                QtWidgets.QMessageBox.information('Senha Inválida!')
+                QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
-                QtWidgets.QMessageBox.information('Usuário Inválido!')
+                QtWidgets.QMessageBox.information(None,'Erro','Usuário Inválido!')
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de conta')
         
