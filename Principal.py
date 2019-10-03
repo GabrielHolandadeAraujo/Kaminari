@@ -62,6 +62,8 @@ class Main(QMainWindow, UI_Main):
         self.tela_cadastro.voltar.clicked.connect(self.voltaLog)
         self.tela_recup.voltar.clicked.connect(self.voltaLog)
         self.tela_cadastro.cadUsuario.clicked.connect(self.cadastrar)
+        self.tela_usuario.pushButton_2.clicked.connect(self.voltaLog)
+        self.tela_recup.pushButton.clicked.connect(self.enviaEmail)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -84,6 +86,16 @@ class Main(QMainWindow, UI_Main):
     def voltaLog(self):
         self.QtStack.setCurrentIndex(0)
     
+    def enviaEmail(self):
+        envia = 'Email' + ',' + self.tela_recup.lineEdit.text()
+        if('@' in self.tela_recup.lineEdit.text() and '.' in self.tela_recup.lineEdit.text()):
+            client_socket.send(envia.encode())
+            QtWidgets.QMessageBox.information(None, 'Confirmação', 'A nova senha foi enviada para o email {}.'.format(self.tela_recup.lineEdit.text()))
+            self.tela_recup.lineEdit.setText('')
+            self.QtStack.setCurrentIndex(0)
+        else:
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Digite um email válido.')
+
     def cadastrar(self):
         recebe = ''
         envia = ''
@@ -94,15 +106,19 @@ class Main(QMainWindow, UI_Main):
             sexo = 'F'
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Selecione o sexo!')
-        envia = 'CAD' + ',' + 'US' + ',' + nome + ',' + cpf + ',' + sexo + ',' + email + ',' + end + ',' + nasc + ',' + user + ',' + pas
-        #envia = 'CAD,US,{},{},{},{},{},{},{},{}'.format(nome, cpf, sexo, email, end, nasc, user, pas)
+        #envia = 'CAD' + ',' + 'US' + ',' + nome + ',' + cpf + ',' + sexo + ',' + email + ',' + end + ',' + nasc + ',' + user + ',' + pas
+        envia = 'CAD,US,{},{},{},{},{},{},{},{}'.format(nome, cpf, sexo, email, end, nasc, user, pas)
         client_socket.send(envia.encode())
         recebe = client_socket.recv(1024)
         if('T' in recebe.decode()):
             QtWidgets.QMessageBox.information(None,'Confirmação','Cadastrado realizado com sucesso!')
+            self.tela_cadastro.lineEdit.setText(''), self.tela_cadastro.lineEdit_2.setText(''), self.tela_cadastro.lineEdit_4.setText(''), self.tela_cadastro.lineEdit_6.setText(''), self.tela_cadastro.lineEdit_5.setText(''), self.tela_cadastro.lineEdit_7.setText(''), self.tela_cadastro.lineEdit_8.setText('')
             self.QtStack.setCurrentIndex(0)
         elif('User' in recebe.decode()):
-            QtWidgets.QMessageBox.information(None,'Erro','Esse usuário já existe!')
+            if('Err' in recebe.decode()):
+                QtWidgets.QMessageBox.information(None,'Erro','O tamanho mínimo do usuário é de 6 caracteres!')    
+            else:  
+                QtWidgets.QMessageBox.information(None,'Erro','Esse usuário já existe!')
         elif('CPF' in recebe.decode()):
             QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
         else:

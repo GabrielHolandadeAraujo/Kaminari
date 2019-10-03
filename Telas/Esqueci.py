@@ -47,7 +47,7 @@ class Ui_EsqueciaSenha(object):
         self.voltar.setGeometry(QtCore.QRect(280, 80, 61, 51))
         self.voltar.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../images/back_12955.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("images/back_12955.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.voltar.setIcon(icon)
         self.voltar.setIconSize(QtCore.QSize(28, 28))
         self.voltar.setObjectName("voltar")

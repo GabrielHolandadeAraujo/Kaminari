@@ -12,7 +12,7 @@ def cadastrado(user,lista):
 
 def CPF(cpf,lista):
     for x in lista:
-        if x.CPF == cpf:
+        if x.Cpf == cpf:
             return x
     return False
 
@@ -144,6 +144,9 @@ while('exit' not in mess):
         else:
             retorno.append('False')
             retorno.append('Desc')
+    elif(mess[0] == 'Email'):
+        email = mess[1]
+    
     try:
         env = '{},{}'.format(retorno[0],retorno[1])
     except:
