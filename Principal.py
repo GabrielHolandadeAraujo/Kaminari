@@ -64,6 +64,9 @@ class Main(QMainWindow, UI_Main):
         self.tela_cadastro.cadUsuario.clicked.connect(self.cadastrar)
         self.tela_usuario.pushButton_2.clicked.connect(self.voltaLog)
         self.tela_recup.pushButton.clicked.connect(self.enviaEmail)
+        self.tela_usuario.calculaFrete.clicked.connect(self.calculaPreco)
+        self.tela_func.pushButton_3.clicked.connect(self.voltaLog)
+        self.tela_admin.pushButton_6.clicked.connect(self.voltaLog)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -84,28 +87,37 @@ class Main(QMainWindow, UI_Main):
         self.QtStack.setCurrentIndex(5)
 
     def voltaLog(self):
+        self.tela_usuario.lineEdit.setText(''), self.tela_usuario.lineEdit_2.setText(''), self.tela_usuario.lineEdit_3.setText(''), self.tela_usuario.lineEdit_4.setText(''), self.tela_usuario.lineEdit_6.setText(''), self.tela_usuario.textBrowser.setText(''), self.tela_usuario.valorFrete.setText(''), self.tela_usuario.prodRastreado.setText('')
+        self.tela_admin.lineEdit.setText(''), self.tela_admin.lineEdit_2.setText(''), self.tela_admin.lineEdit_3.setText(''), self.tela_admin.lineEdit_4.setText(''), self.tela_admin.lineEdit_5.setText(''), self.tela_admin.lineEdit_6.setText(''), self.tela_admin.lineEdit_7.setText(''), self.tela_admin.lineEdit_8.setText(''), self.tela_admin.textBrowser.setText(''), self.tela_admin.textBrowser_2.setText(''), self.tela_admin.textBrowser_3.setText(''), self.tela_admin.textBrowser_4.setText('')
+        self.tela_func.lineEdit.setText(''), self.tela_func.lineEdit_2.setText(''), self.tela_func.lineEdit_3.setText(''), self.tela_func.lineEdit_4.setText(''), self.tela_func.lineEdit_5.setText(''), self.tela_func.lineEdit_6.setText(''), self.tela_func.lineEdit_7.setText(''), self.tela_func.lineEdit_8.setText(''), self.tela_func.lineEdit_9.setText(''), self.tela_func.lineEdit_20.setText(''), self.tela_func.lineEdit_21.setText(''), self.tela_func.textBrowser.setText(''), self.tela_func.textBrowser_2.setText(''), self.tela_func.Info_pacote.setText('')
         self.QtStack.setCurrentIndex(0)
     
     def calculaPreco(self):
         envia = ''
         recebe = ''
         peso, alt, comp, prof = self.tela_usuario.lineEdit_6.text(), self.tela_usuario.lineEdit_4.text(), self.tela_usuario.lineEdit.text(), self.tela_usuario.lineEdit_2.text()
-        if(self.tela_cadastro.radioButton.isChecked()):
+        if(self.tela_usuario.radioButton.isChecked()):
             frag = 'Não'
-        elif(self.tela_cadastro.radioButton_2.isChecked()):
+        elif(self.tela_usuario.radioButton_2.isChecked()):
             frag = 'Sim'
         else:
             QtWidgets.QMessageBox.information(None,'Erro','O pacote é fragil?')
-        if(self.tela_cadastro.radioButton_3.isChecked()):
+        if(self.tela_usuario.radioButton_3.isChecked()):
             tipo = 'Normal'
-        elif(self.tela_cadastro.radioButton_4.isChecked()):
+        elif(self.tela_usuario.radioButton_4.isChecked()):
             tipo = 'Expresso'
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de entrega!')
         envia = 'PAC,CAL,{},{},{},{},{},{}'.format(peso, alt, comp, prof, frag, tipo)
         client_socket.send(envia.encode())
         recebe = client_socket.recv(1024)
-        self.tela_usuario.calculaFrete.setText(recebe.decode())
+        if('T' in recebe.decode()):
+            valor = ''
+            valor = recebe.decode()
+            valor = valor.split(',')
+            self.tela_usuario.valorFrete.setText('{} R$'.format(valor[1]))
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
 
     def enviaEmail(self):
         envia = 'Email' + ',' + self.tela_recup.lineEdit.text()
@@ -141,7 +153,10 @@ class Main(QMainWindow, UI_Main):
             else:  
                 QtWidgets.QMessageBox.information(None,'Erro','Esse usuário já existe!')
         elif('CPF' in recebe.decode()):
-            QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
+            if('Err' in recebe.decode()):
+                QtWidgets.QMessageBox.information(None, 'Erro', 'Digite um CPF válido!')
+            else:
+                QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
 
@@ -155,6 +170,7 @@ class Main(QMainWindow, UI_Main):
             recebe = client_socket.recv(1024)
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(2)
+                self.tela_login.lineEdit.setText(''), self.tela_login.lineEdit_2.setText('')
             elif('Pass' in recebe.decode()):
                 QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
@@ -206,7 +222,7 @@ class Main(QMainWindow, UI_Main):
 
 if __name__ == '__main__':
     ip = input('Digite o ip da concexão:')
-    port = 7009
+    port = 7008
     addr = ((ip, port))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(addr)

@@ -20,7 +20,7 @@ def CPF(cpf,lista):
 
 
 host = ''
-port = 7009
+port = 7008
 addr = (host, port)
 serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #cria o socket
 serv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #reiniciliza o socket
@@ -150,10 +150,15 @@ while('exit' not in mess):
     elif(mess[0] == 'PAC'):
         #Teste pacote [PAC, CAL, Peso, Altura, Comprimento, Profundidade, Fragil, Tipo]
         if(len(mess) == 8):
-            peso, alt, comp, prof, frag, tipo = mess[2], mess[3], mess[4], mess[5], mess[6], mess[7]
+            peso, alt, comp, prof, frag, tipo = float(mess[2]), float(mess[3]), float(mess[4]), float(mess[5]), mess[6], mess[7]
+            if(tipo == 'Normal'):
+                tipo = False
+            else:
+                tipo = True
             if(mess[1] == 'CAL'):
                 pak = Pacote(peso, alt, prof, comp, None, None, None, None, tipo, frag)
-                retorno.append(str(pak.preco)       
+                retorno.append('T')
+                retorno.append(str(pak.preco))       
         else:
             retorno.append('False')
             retorno.append('Desc')
