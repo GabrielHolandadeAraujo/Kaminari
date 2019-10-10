@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'CadastroUsuario.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_CadastroUsuario(object):
     def setupUi(self, CadastroUsuario):
@@ -93,7 +91,7 @@ class Ui_CadastroUsuario(object):
         self.label_9.setObjectName("label_9")
         self.verticalLayout.addWidget(self.label_9)
         self.layoutWidget1 = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget1.setGeometry(QtCore.QRect(270, 220, 451, 210))
+        self.layoutWidget1.setGeometry(QtCore.QRect(270, 220, 451, 212))
         self.layoutWidget1.setObjectName("layoutWidget1")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -104,9 +102,9 @@ class Ui_CadastroUsuario(object):
         self.lineEdit_6 = QtWidgets.QLineEdit(self.layoutWidget1)
         self.lineEdit_6.setObjectName("lineEdit_6")
         self.verticalLayout_2.addWidget(self.lineEdit_6)
-        self.lineEdit_5 = QtWidgets.QLineEdit(self.layoutWidget1)
-        self.lineEdit_5.setObjectName("lineEdit_5")
-        self.verticalLayout_2.addWidget(self.lineEdit_5)
+        self.dateEdit = QtWidgets.QDateEdit(self.layoutWidget1)
+        self.dateEdit.setObjectName("dateEdit")
+        self.verticalLayout_2.addWidget(self.dateEdit)
         self.lineEdit_7 = QtWidgets.QLineEdit(self.layoutWidget1)
         self.lineEdit_7.setObjectName("lineEdit_7")
         self.verticalLayout_2.addWidget(self.lineEdit_7)
@@ -127,7 +125,7 @@ class Ui_CadastroUsuario(object):
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.verticalLayout_3.addWidget(self.lineEdit_2)
         self.layoutWidget3 = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget3.setGeometry(QtCore.QRect(270, 190, 199, 22))
+        self.layoutWidget3.setGeometry(QtCore.QRect(270, 190, 207, 25))
         self.layoutWidget3.setObjectName("layoutWidget3")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget3)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -142,7 +140,7 @@ class Ui_CadastroUsuario(object):
         self.voltar.setGeometry(QtCore.QRect(20, 10, 61, 51))
         self.voltar.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("images/back_12955.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../images/back_12955.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.voltar.setIcon(icon)
         self.voltar.setIconSize(QtCore.QSize(28, 28))
         self.voltar.setObjectName("voltar")
@@ -183,3 +181,4 @@ if __name__ == "__main__":
     ui.setupUi(CadastroUsuario)
     CadastroUsuario.show()
     sys.exit(app.exec_())
+

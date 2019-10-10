@@ -59,14 +59,20 @@ class Main(QMainWindow, UI_Main):
         self.tela_login.EsqueciButton.clicked.connect(self.esqueci)
         self.tela_login.LoginButton.clicked.connect(self.entrar)
         self.tela_login.CadButton.clicked.connect(self.criarConta)
+
         self.tela_cadastro.voltar.clicked.connect(self.voltaLog)
-        self.tela_recup.voltar.clicked.connect(self.voltaLog)
         self.tela_cadastro.cadUsuario.clicked.connect(self.cadastrar)
-        self.tela_usuario.pushButton_2.clicked.connect(self.voltaLog)
+
+        self.tela_recup.voltar.clicked.connect(self.voltaLog)
         self.tela_recup.pushButton.clicked.connect(self.enviaEmail)
+
         self.tela_usuario.calculaFrete.clicked.connect(self.calculaPreco)
+        self.tela_usuario.pushButton_2.clicked.connect(self.voltaLog)
+
         self.tela_func.pushButton_3.clicked.connect(self.voltaLog)
+
         self.tela_admin.pushButton_6.clicked.connect(self.voltaLog)
+        self.tela_admin.pushButton.clicked.connect(self.CadastrarADM)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -132,7 +138,8 @@ class Main(QMainWindow, UI_Main):
     def cadastrar(self):
         recebe = ''
         envia = ''
-        nome, cpf, email, end, nasc, user, pas = self.tela_cadastro.lineEdit.text(), self.tela_cadastro.lineEdit_2.text(), self.tela_cadastro.lineEdit_4.text(), self.tela_cadastro.lineEdit_6.text(), self.tela_cadastro.lineEdit_5.text(), self.tela_cadastro.lineEdit_7.text(), self.tela_cadastro.lineEdit_8.text()
+        nome, cpf, email, end, user, pas = self.tela_cadastro.lineEdit.text(), self.tela_cadastro.lineEdit_2.text(), self.tela_cadastro.lineEdit_4.text(), self.tela_cadastro.lineEdit_6.text(), self.tela_cadastro.lineEdit_7.text(), self.tela_cadastro.lineEdit_8.text()
+        nasc = self.tela_cadastro.dateEdit.text()
         if(self.tela_cadastro.radioButton.isChecked()):
             sexo = 'M'
         elif(self.tela_cadastro.radioButton_2.isChecked()):
@@ -145,7 +152,7 @@ class Main(QMainWindow, UI_Main):
         recebe = client_socket.recv(1024)
         if('T' in recebe.decode()):
             QtWidgets.QMessageBox.information(None,'Confirmação','Cadastrado realizado com sucesso!')
-            self.tela_cadastro.lineEdit.setText(''), self.tela_cadastro.lineEdit_2.setText(''), self.tela_cadastro.lineEdit_4.setText(''), self.tela_cadastro.lineEdit_6.setText(''), self.tela_cadastro.lineEdit_5.setText(''), self.tela_cadastro.lineEdit_7.setText(''), self.tela_cadastro.lineEdit_8.setText('')
+            self.tela_cadastro.lineEdit.setText(''), self.tela_cadastro.lineEdit_2.setText(''), self.tela_cadastro.lineEdit_4.setText(''), self.tela_cadastro.lineEdit_6.setText(''), self.tela_cadastro.lineEdit_7.setText(''), self.tela_cadastro.lineEdit_8.setText('')
             self.QtStack.setCurrentIndex(0)
         elif('User' in recebe.decode()):
             if('Err' in recebe.decode()):
@@ -159,6 +166,45 @@ class Main(QMainWindow, UI_Main):
                 QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
+
+    def CadastrarADM(self):
+        recebe=''
+        nome, cpf, email, end, user, pas = self.tela_admin.lineEdit.text(), self.tela_admin.lineEdit_2.text(), self.tela_admin.lineEdit_4.text(), self.tela_admin.lineEdit_3.text(), self.tela_admin.lineEdit_5.text(), self.tela_admin.lineEdit_6.text()
+        nasc=self.tela_admin.dateEdit.text()
+        if self.tela_admin.radioButton.isChecked():
+            sexo='M'
+        elif self.tela_admin.radioButton_2.isChecked():
+            sexo='F'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Selecione o sexo!')
+        
+        if self.tela_admin.radioButton_3.isChecked():
+            tipo='FC'
+        elif self.tela_admin.radioButton_4.isChecked():
+            tipo='AD'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de conta!')
+        envia = 'CAD,{},{},{},{},{},{},{},{},{}'.format(tipo,nome, cpf, sexo, email, end, nasc, user, pas)
+        client_socket.send(envia.encode())
+        recebe = client_socket.recv(1024)
+        if('T' in recebe.decode()):
+            QtWidgets.QMessageBox.information(None,'Confirmação','Cadastrado realizado com sucesso!')
+            self.tela_admin.lineEdit.setText(''), self.tela_admin.lineEdit_2.setText(''), self.tela_admin.lineEdit_4.setText(''), self.tela_admin.lineEdit_6.setText(''), self.tela_admin.lineEdit_5.setText(''), self.tela_admin.lineEdit_3.setText('')
+            self.QtStack.setCurrentIndex(3)
+        elif('User' in recebe.decode()):
+            if('Err' in recebe.decode()):
+                QtWidgets.QMessageBox.information(None,'Erro','O tamanho mínimo do usuário é de 6 caracteres!')    
+            else:  
+                QtWidgets.QMessageBox.information(None,'Erro','Esse usuário já existe!')
+        elif('CPF' in recebe.decode()):
+            if('Err' in recebe.decode()):
+                QtWidgets.QMessageBox.information(None, 'Erro', 'Digite um CPF válido!')
+            else:
+                QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
+
+
 
 
     def entrar(self):

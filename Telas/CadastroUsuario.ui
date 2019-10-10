@@ -194,7 +194,7 @@
       <x>270</x>
       <y>220</y>
       <width>451</width>
-      <height>210</height>
+      <height>212</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -205,7 +205,7 @@
       <widget class="QLineEdit" name="lineEdit_6"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_5"/>
+      <widget class="QDateEdit" name="dateEdit"/>
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit_7"/>
@@ -242,8 +242,8 @@
      <rect>
       <x>270</x>
       <y>190</y>
-      <width>199</width>
-      <height>22</height>
+      <width>207</width>
+      <height>25</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">

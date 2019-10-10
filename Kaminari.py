@@ -36,6 +36,7 @@ op=1
 users=[]
 funcs=[]
 admins=[]
+admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 mess=''
 while('exit' not in mess):
     retorno=[]
