@@ -4,7 +4,7 @@ class Pacote(object):
     _porcmqua = 0.01
     _porpeso = 0.20
     _contador = 0
-    def __init__(self, peso, altura, profundidade, comprimento, remetente, destinatario, origem, destino, tipo, fragil):
+    def __init__(self, peso, altura, profundidade, comprimento, remetente, destinatario, origem, destino, expresso, fragil):
         self._peso = peso    
         self._altura = altura
         self._profundidade = profundidade
@@ -12,8 +12,9 @@ class Pacote(object):
         self._origem = origem
         self._destino = destino
         self._historico = []
+        self._historico.append('Objeto postado em {} {}'.format(origem,datetime.datetime.today().strftime("%d/%m/%Y, %H:%M:%S")))
         self._fragil = fragil
-        self._expresso = tipo
+        self._expresso = expresso
         self._preco = 0
         self.atualizaPreco()
         self._codigo = str(datetime.datetime.now().year)+str(Pacote._contador).zfill(12)
@@ -28,7 +29,6 @@ class Pacote(object):
         print('Histórico:')
         for i in self._historico:
             print(i)
-        print()
 
     def atualizaPreco(self):
         if(self._expresso == True):

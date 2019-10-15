@@ -170,7 +170,7 @@ class Main(QMainWindow, UI_Main):
             QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
 
 
-    def cadastrarPacote():
+    def cadastrarPacote(self):
         #CAD, PAC, peso, altura, comp, prof, fragil, tipo, remetente, destinatario, postado, vai
         recebe = ''
         peso, altura, comp, prof, remetente, destinatario, postado, vai = self.tela_func.lineEdit_6.text(), self.tela_func.lineEdit_4.text(), self.tela_func.lineEdit.text(), self.tela_func.lineEdit_2.text(), self.tela_func.lineEdit_3.text(), self.tela_func.lineEdit_8.text(), self.tela_func.lineEdit_7.text(), self.tela_func.lineEdit_5.text()

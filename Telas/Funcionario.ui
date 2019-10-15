@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -138,7 +138,7 @@
         <x>350</x>
         <y>290</y>
         <width>199</width>
-        <height>24</height>
+        <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -188,7 +188,7 @@
         <x>350</x>
         <y>340</y>
         <width>199</width>
-        <height>24</height>
+        <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -284,7 +284,7 @@
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>370</y>
+        <y>360</y>
         <width>631</width>
         <height>231</height>
        </rect>
@@ -386,6 +386,46 @@ color: rgb(255, 255, 255);</string>
        </rect>
       </property>
      </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>990</x>
+        <y>80</y>
+        <width>160</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>KG</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>CM</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>CM</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>CM</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -394,9 +434,9 @@ color: rgb(255, 255, 255);</string>
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>60</x>
         <y>50</y>
-        <width>171</width>
+        <width>201</width>
         <height>41</height>
        </rect>
       </property>

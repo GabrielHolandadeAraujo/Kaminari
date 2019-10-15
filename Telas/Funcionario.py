@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'Funcionario.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Tela_Funcionario(object):
     def setupUi(self, Tela_Funcionario):
@@ -70,7 +68,7 @@ class Ui_Tela_Funcionario(object):
         self.label_8.setObjectName("label_8")
         self.verticalLayout.addWidget(self.label_8)
         self.layoutWidget_4 = QtWidgets.QWidget(self.tab)
-        self.layoutWidget_4.setGeometry(QtCore.QRect(350, 290, 199, 24))
+        self.layoutWidget_4.setGeometry(QtCore.QRect(350, 290, 199, 25))
         self.layoutWidget_4.setObjectName("layoutWidget_4")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget_4)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -100,7 +98,7 @@ class Ui_Tela_Funcionario(object):
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.verticalLayout_2.addWidget(self.lineEdit_2)
         self.layoutWidget = QtWidgets.QWidget(self.tab)
-        self.layoutWidget.setGeometry(QtCore.QRect(350, 340, 199, 24))
+        self.layoutWidget.setGeometry(QtCore.QRect(350, 340, 199, 25))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -146,7 +144,7 @@ class Ui_Tela_Funcionario(object):
         self.label_10.setObjectName("label_10")
         self.verticalLayout_3.addWidget(self.label_10)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.tab)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(350, 370, 631, 231))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(350, 360, 631, 231))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -189,11 +187,29 @@ class Ui_Tela_Funcionario(object):
         self.textBrowser_2 = QtWidgets.QTextBrowser(self.tab)
         self.textBrowser_2.setGeometry(QtCore.QRect(910, 670, 291, 41))
         self.textBrowser_2.setObjectName("textBrowser_2")
+        self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.tab)
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(990, 80, 160, 191))
+        self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.label_17 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.label_17.setObjectName("label_17")
+        self.verticalLayout_5.addWidget(self.label_17)
+        self.label_16 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.label_16.setObjectName("label_16")
+        self.verticalLayout_5.addWidget(self.label_16)
+        self.label_19 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.label_19.setObjectName("label_19")
+        self.verticalLayout_5.addWidget(self.label_19)
+        self.label_18 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.label_18.setObjectName("label_18")
+        self.verticalLayout_5.addWidget(self.label_18)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.label_11 = QtWidgets.QLabel(self.tab_2)
-        self.label_11.setGeometry(QtCore.QRect(90, 50, 171, 41))
+        self.label_11.setGeometry(QtCore.QRect(60, 50, 201, 41))
         font = QtGui.QFont()
         font.setPointSize(15)
         self.label_11.setFont(font)
@@ -281,7 +297,7 @@ class Ui_Tela_Funcionario(object):
         Tela_Funcionario.setStatusBar(self.statusbar)
 
         self.retranslateUi(Tela_Funcionario)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Tela_Funcionario)
 
     def retranslateUi(self, Tela_Funcionario):
@@ -304,6 +320,10 @@ class Ui_Tela_Funcionario(object):
         self.CadEnc.setText(_translate("Tela_Funcionario", "Cadastrar"))
         self.label_12.setText(_translate("Tela_Funcionario", "Codigo Gerado"))
         self.label_15.setText(_translate("Tela_Funcionario", "Preço Calculado"))
+        self.label_17.setText(_translate("Tela_Funcionario", "KG"))
+        self.label_16.setText(_translate("Tela_Funcionario", "CM"))
+        self.label_19.setText(_translate("Tela_Funcionario", "CM"))
+        self.label_18.setText(_translate("Tela_Funcionario", "CM"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Tela_Funcionario", "Cadastrar um pacote"))
         self.label_11.setText(_translate("Tela_Funcionario", "Código de Rastreio"))
         self.label_13.setText(_translate("Tela_Funcionario", "Ler QRcode"))
@@ -325,3 +345,4 @@ if __name__ == "__main__":
     ui.setupUi(Tela_Funcionario)
     Tela_Funcionario.show()
     sys.exit(app.exec_())
+

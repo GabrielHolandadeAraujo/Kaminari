@@ -134,7 +134,7 @@ class Thread(threading.Thread):
                             retorno.append('User')
                 elif len(mess)==12:
                     #[CAD,PAC,peso,altura,comprimento,profundidade,eh frágil?,eh expressa?,remetente,destinatario,postadoem,vaipara]
-                    peso,altura,comprimento,profundidade,eh_frágil,eh_expressa,remetente,destinatario,postadoem,vaipara = mess[2],mess[3],mess[4],mess[5],mess[6],mess[7],mess[8],mess[9],mess[10],mess[11]
+                    peso,altura,comprimento,profundidade,eh_frágil,eh_expressa,remetente,destinatario,postadoem,vaipara = int(mess[2]),int(mess[3]),int(mess[4]),int(mess[5]),mess[6],mess[7],mess[8],mess[9],mess[10],mess[11]
                     if eh_frágil == 'Sim':
                         eh_frágil=True
                     else:
@@ -149,8 +149,8 @@ class Thread(threading.Thread):
                         retorno.append('Desc')
                     else:
                         retorno.append('True')
-                        retorno.append('{}'.format(pac.preco))
                         retorno.append('{}'.format(pac.codigo))
+                        retorno.append('{}'.format(pac.preco))
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
@@ -178,7 +178,7 @@ class Thread(threading.Thread):
             else:
                 if len(retorno)==1 and not('True' in retorno):
                     env = '{},{}'.format(retorno[0][0],retorno[0][1])
-                elif len(retorno==3):
+                elif len(retorno)==3:
                     env = '{},{},{}'.format(retorno[0],retorno[1],retorno[2])
                 else:
                     env = '{}'.format(retorno)
