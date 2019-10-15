@@ -265,13 +265,22 @@ class Main(QMainWindow, UI_Main):
 
     def cadastrarLivro(self):
         self.QtStack.setCurrentIndex(2)
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Quit', 'Are You Sure to Quit?', QMessageBox.No | QMessageBox.Yes)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 if __name__ == '__main__':
     ip = input('Digite o ip da concexão:')
-    port = 7008
+    port = 7001
     addr = ((ip, port))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(addr)
     app = QApplication(sys.argv)
     show_main = Main()
-    sys.exit(app.exec_())
+    app.exec_()
+    sai='exit'
+    client_socket.send(sai.encode())
+    sys.exit()
