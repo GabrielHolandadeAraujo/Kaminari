@@ -74,6 +74,8 @@ class Main(QMainWindow, UI_Main):
         self.tela_admin.pushButton_6.clicked.connect(self.voltaLog)
         self.tela_admin.pushButton.clicked.connect(self.CadastrarADM)
 
+        self.tela_func.CadEnc.clicked.connect(self.cadastrarPacote)
+
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
 
@@ -164,6 +166,37 @@ class Main(QMainWindow, UI_Main):
                 QtWidgets.QMessageBox.information(None, 'Erro', 'Digite um CPF válido!')
             else:
                 QtWidgets.QMessageBox.information(None, 'Erro,', 'Esse CPF já está cadastrado!')
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
+
+
+    def cadastrarPacote():
+        #CAD, PAC, peso, altura, comp, prof, fragil, tipo, remetente, destinatario, postado, vai
+        recebe = ''
+        peso, altura, comp, prof, remetente, destinatario, postado, vai = self.tela_func.lineEdit_6.text(), self.tela_func.lineEdit_4.text(), self.tela_func.lineEdit.text(), self.tela_func.lineEdit_2.text(), self.tela_func.lineEdit_3.text(), self.tela_func.lineEdit_8.text(), self.tela_func.lineEdit_7.text(), self.tela_func.lineEdit_5.text()
+        if self.tela_func.radioButton.isChecked():
+            frag = 'Não'
+        elif self.tela_func.radioButton_2.isChecked():
+            frag = 'Sim'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','O pacote é frágil?')
+        if self.tela_func.radioButton_3.isChecked():
+            tipo = 'Normal'
+        elif self.tela_func.radioButton_4.isChecked():
+            tipo = 'Expresso'
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de entrega!')
+        envia = 'CAD,PAC,{},{},{},{},{},{},{},{},{},{}'.format(peso, altura, comp, prof, frag, tipo, remetente, destinatario, postado, vai)
+        client_socket.send(envia.encode())
+        recebe = client_socket.recv(1024)
+        if('T' in recebe.decode()):
+            QtWidgets.QMessageBox.information(None,'Confirmação','Pacote cadastrado com sucesso!')
+            valor = ''
+            valor = recebe.decode()
+            valor = valor.split(',')
+            self.tela_func.textBrowser.setText('{}'.format(valor[1]))
+            self.tela_func.textBrowser_2.setText('{} R$'.format(valor[2]))
+            #self.tela_func.lineEdit_6.setText(''), self.tela_func.lineEdit_4.setText(''), self.tela_func.lineEdit.setText(''), self.tela_func.lineEdit_2.setText(''), self.tela_func.lineEdit_3.setText(''), self.tela_func.lineEdit_8.setText(''), self.tela_func.lineEdit_7.setText(''), self.tela_func.lineEdit_5.setText(''), self.tela_func.textBrowser.setText(''), self.tela_func.textBrowser_2.setText('')
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
 
