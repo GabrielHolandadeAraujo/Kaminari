@@ -132,6 +132,25 @@ class Thread(threading.Thread):
                         else:
                             retorno.append('False')
                             retorno.append('User')
+                elif len(mess)==12:
+                    #[CAD,PAC,peso,altura,comprimento,profundidade,eh frágil?,eh expressa?,remetente,destinatario,postadoem,vaipara]
+                    peso,altura,comprimento,profundidade,eh_frágil,eh_expressa,remetente,destinatario,postadoem,vaipara = mess[2],mess[3],mess[4],mess[5],mess[6],mess[7],mess[8],mess[9],mess[10],mess[11]
+                    if eh_frágil == 'Sim':
+                        eh_frágil=True
+                    else:
+                        eh_frágil=False
+                    if eh_expressa == 'Expresso':
+                        eh_expressa=True
+                    else:
+                        eh_expressa=False
+                    pac=Pacote(peso,altura,profundidade,comprimento,remetente,destinatario,postadoem,vaipara,eh_expressa,eh_frágil)
+                    if not(isinstance(pac,Pacote)):
+                        retorno.append('False')
+                        retorno.append('Desc')
+                    else:
+                        retorno.append('True')
+                        retorno.append('{}'.format(pac.preco))
+                        retorno.append('{}'.format(pac.codigo))
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
@@ -154,13 +173,15 @@ class Thread(threading.Thread):
                     retorno.append('Desc')
 
 
-            try:
+            if len(retorno)==2:
                 env = '{},{}'.format(retorno[0],retorno[1])
-            except:
-                try:
+            else:
+                if len(retorno)==1 and not('True' in retorno):
                     env = '{},{}'.format(retorno[0][0],retorno[0][1])
-                except:
-                    env=str(retorno)
+                elif len(retorno==3):
+                    env = '{},{},{}'.format(retorno[0],retorno[1],retorno[2])
+                else:
+                    env = '{}'.format(retorno)
             
             self.Sock.send(env.encode())
         print('Conexão Encerrada com Cliente',self.Ad)
@@ -170,6 +191,7 @@ op=1
 users=[]
 funcs=[]
 admins=[]
+pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 
 if __name__ == '__main__':
