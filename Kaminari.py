@@ -2,7 +2,7 @@ from BuilderPessoa import buildP
 from Pessoa import Pessoa
 import datetime
 import getpass
-import socket, threading
+import socket, threading, pickle
 from Pacotes import Pacote
 
 
@@ -26,6 +26,13 @@ class Thread(threading.Thread):
                 if x.Cpf == cpf:
                     return x
             return False
+
+        def procuraPacote(codigo,lista):
+            for x in lista:
+                if x.codigo == codigo:
+                    return x
+            return False
+
         mess=''
         while('exit' not in mess):
             retorno=[]
@@ -171,19 +178,27 @@ class Thread(threading.Thread):
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
-
-
-            if len(retorno)==2:
-                env = '{},{}'.format(retorno[0],retorno[1])
-            else:
-                if len(retorno)==1 and not('True' in retorno):
-                    env = '{},{}'.format(retorno[0][0],retorno[0][1])
-                elif len(retorno)==3:
-                    env = '{},{},{}'.format(retorno[0],retorno[1],retorno[2])
+            elif(mess[0] == 'RAS'):
+                #[RAS,codigo]
+                obj=procuraPacote(mess[1],pacotes)
+                if not(type(obj) == type(bool)):
+                    retorno=obj
                 else:
-                    env = '{}'.format(retorno)
-            
-            self.Sock.send(env.encode())
+                    retorno.append('False')
+            if isinstance(retorno,Pacote):
+                env = pickle.dumps(retorno)
+                self.Sock.send(env)
+            else:
+                if len(retorno)==2:
+                    env = '{},{}'.format(retorno[0],retorno[1])
+                else:
+                    if len(retorno)==1 and not('True' in retorno):
+                        env = '{},{}'.format(retorno[0][0],retorno[0][1])
+                    elif len(retorno)==3:
+                        env = '{},{},{}'.format(retorno[0],retorno[1],retorno[2])
+                    else:
+                        env = '{}'.format(retorno)
+                self.Sock.send(env.encode())
         print('Conexão Encerrada com Cliente',self.Ad)
 
 
