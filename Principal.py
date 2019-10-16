@@ -6,9 +6,11 @@ from Telas.Esqueci import Ui_EsqueciaSenha
 from Telas.Funcionario import Ui_Tela_Funcionario
 from Telas.Login import Ui_Login
 from Telas.Usuario import Ui_Usuario
+from Pacotes import Pacote
 import PyQt5
 import sys
 import os
+import pickle
 from PyQt5.QtCore import pyqtSlot
 import socket
 
@@ -68,6 +70,7 @@ class Main(QMainWindow, UI_Main):
 
         self.tela_usuario.calculaFrete.clicked.connect(self.calculaPreco)
         self.tela_usuario.pushButton_2.clicked.connect(self.voltaLog)
+        self.tela_usuario.Prastreia.clicked.connect(self.buscaPacote)
 
         self.tela_func.pushButton_3.clicked.connect(self.voltaLog)
 
@@ -75,6 +78,7 @@ class Main(QMainWindow, UI_Main):
         self.tela_admin.pushButton.clicked.connect(self.CadastrarADM)
 
         self.tela_func.CadEnc.clicked.connect(self.cadastrarPacote)
+        self.tela_func.pushButton_2.clicked.connect(self.buscaPacote)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -238,6 +242,27 @@ class Main(QMainWindow, UI_Main):
             QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
 
 
+    def buscaPacote(self):
+        if len(self.tela_func.lineEdit_9.text()) > 0:
+            cod = self.tela_func.lineEdit_9.text()
+            user = 'func'
+        elif len(self.tela_usuario.lineEdit_3.text()) > 0:
+            cod = self.tela_usuario.lineEdit_3.text()
+            user = 'us'
+        else:
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Informe o código!')
+        envia = 'RAS,{}'.format(cod)
+        client_socket.send(envia.encode())
+        recebe = client_socket.recv(4096)
+        obj = pickle.loads(recebe)
+        if(isinstance(obj, Pacote)):
+            if(user == 'us'):
+                self.tela_usuario.prodRastreado.setText('Remetente: {} Destinatário: {}\n Origem: {} Destino: {}\n Tipo de Entrega: {} Frágil: {}\n Peso: {} Altura: {}\n Comprimento: {} Profundidade\n Preço: {} R$ Histórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, onj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
+            else:
+                self.tela_func.Info_pacote.setText('Remetente: {} Destinatário: {}\n Origem: {} Destino: {}\n Tipo de Entrega: {} Frágil: {}\n Peso: {} Altura: {}\n Comprimento: {} Profundidade\n Preço: {} R$ Histórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, onj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
+        else:
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Esse código não está cadastrado!')
+            
 
 
     def entrar(self):
@@ -260,6 +285,7 @@ class Main(QMainWindow, UI_Main):
             recebe = client_socket.recv(1024)
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(4)
+                self.tela_login.lineEdit.setText(''), self.tela_login.lineEdit_2.setText('')
             elif('Pass' in recebe.decode()):
                 QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
@@ -270,6 +296,7 @@ class Main(QMainWindow, UI_Main):
             recebe = client_socket.recv(1024)
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(3)
+                self.tela_login.lineEdit.setText(''), self.tela_login.lineEdit_2.setText('')
             elif('Pass' in recebe.decode()):
                 QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
@@ -307,7 +334,7 @@ class Main(QMainWindow, UI_Main):
 
 if __name__ == '__main__':
     ip = input('Digite o ip da concexão:')
-    port = 7001
+    port = 7008
     addr = ((ip, port))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(addr)

@@ -17,6 +17,8 @@ class Pacote(object):
         self._expresso = expresso
         self._preco = 0
         self.atualizaPreco()
+        self._remet = remetente
+        self._dest = destinatario
         self._codigo = str(datetime.datetime.now().year)+str(Pacote._contador).zfill(12)
         Pacote._contador += 1
 
@@ -35,6 +37,7 @@ class Pacote(object):
             self._preco = (self._altura * self._profundidade * self._comprimento * Pacote._porcmqua) + (self._peso * Pacote._porpeso) + 40.00
         else:
             self._preco = (self._altura * self._profundidade * self._comprimento * Pacote._porcmqua) + (self._peso * Pacote._porpeso) + 2
+
 
     @property
     def peso(self):
@@ -111,4 +114,16 @@ class Pacote(object):
     @property
     def historico(self):
         return self._historico
+
+    @property
+    def remetente(self):
+        return self._remet
+
+    @property
+    def destinatario(self):
+        return self._dest
+    
+    @property
+    def fragil(self):
+        return self._fragil
 
