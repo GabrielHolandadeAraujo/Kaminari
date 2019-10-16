@@ -195,12 +195,15 @@ class Thread(threading.Thread):
                 if len(retorno)==2:
                     env = '{},{}'.format(retorno[0],retorno[1])
                 else:
-                    if len(retorno)==1 and not('True' in retorno):
+                    if len(retorno)==1 and not('True' in retorno or 'False' in retorno):
                         env = '{},{}'.format(retorno[0][0],retorno[0][1])
                     elif len(retorno)==3:
                         env = '{},{},{}'.format(retorno[0],retorno[1],retorno[2])
                     else:
                         env = '{}'.format(retorno)
+                        env=env.replace('[','')
+                        env=env.replace(']','')
+                        print(env)
                 self.Sock.send(env.encode())
         print('Conexão Encerrada com Cliente',self.Ad)
 
@@ -215,7 +218,7 @@ funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 
 if __name__ == '__main__':
     LOCALHOST = ''
-    PORT = 7008
+    PORT = 7002
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((LOCALHOST, PORT))

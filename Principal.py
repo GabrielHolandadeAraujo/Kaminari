@@ -254,7 +254,13 @@ class Main(QMainWindow, UI_Main):
         envia = 'RAS,{}'.format(cod)
         client_socket.send(envia.encode())
         recebe = client_socket.recv(4096)
-        obj = pickle.loads(recebe)
+        print(type(recebe))
+        try:
+            print('pickle')
+            obj = pickle.loads(recebe)
+        except:
+            print('decode')
+            obj = recebe.decode()
         if(isinstance(obj, Pacote)):
             if(user == 'us'):
                 self.tela_usuario.prodRastreado.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
@@ -334,7 +340,7 @@ class Main(QMainWindow, UI_Main):
 
 if __name__ == '__main__':
     ip = input('Digite o ip da concexão:')
-    port = 7008
+    port = 7002
     addr = ((ip, port))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(addr)
