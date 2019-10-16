@@ -168,6 +168,7 @@ class Thread(threading.Thread):
                 email = mess[1]
             elif(mess[0] == 'PAC'):
                 #Teste pacote [PAC, CAL, Peso, Altura, Comprimento, Profundidade, Fragil, Tipo]
+                #Atualiza PAC [PAC, ATT, codigo, chegou, saiu]
                 if(len(mess) == 8):
                     peso, alt, comp, prof, frag, tipo = float(mess[2]), float(mess[3]), float(mess[4]), float(mess[5]), mess[6], mess[7]
                     if(tipo == 'Normal'):
@@ -178,6 +179,13 @@ class Thread(threading.Thread):
                         pak = Pacote(peso, alt, prof, comp, None, None, None, None, tipo, frag)
                         retorno.append('T')
                         retorno.append(str(pak.preco))       
+                elif(len(mess)==5):
+                    obj=procuraPacote(mess[2],pacotes)
+                    if not(type(obj) == bool):
+                        obj.atualizaHistorico(mess[3],mess[4])
+                        retorno=obj
+                    else:
+                        retorno.append('False')
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
