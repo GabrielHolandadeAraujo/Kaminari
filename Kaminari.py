@@ -28,7 +28,9 @@ class Thread(threading.Thread):
             return False
 
         def procuraPacote(codigo,lista):
+            print('procurando por',codigo)
             for x in lista:
+                print(x.codigo)
                 if x.codigo == codigo:
                     return x
             return False
@@ -158,6 +160,7 @@ class Thread(threading.Thread):
                         retorno.append('True')
                         retorno.append('{}'.format(pac.codigo))
                         retorno.append('{}'.format(pac.preco))
+                        pacotes.append(pac)
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
@@ -181,7 +184,7 @@ class Thread(threading.Thread):
             elif(mess[0] == 'RAS'):
                 #[RAS,codigo]
                 obj=procuraPacote(mess[1],pacotes)
-                if not(type(obj) == type(bool)):
+                if not(type(obj) == bool):
                     retorno=obj
                 else:
                     retorno.append('False')
@@ -208,6 +211,7 @@ funcs=[]
 admins=[]
 pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
+funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 
 if __name__ == '__main__':
     LOCALHOST = ''

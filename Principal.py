@@ -257,9 +257,9 @@ class Main(QMainWindow, UI_Main):
         obj = pickle.loads(recebe)
         if(isinstance(obj, Pacote)):
             if(user == 'us'):
-                self.tela_usuario.prodRastreado.setText('Remetente: {} Destinatário: {}\n Origem: {} Destino: {}\n Tipo de Entrega: {} Frágil: {}\n Peso: {} Altura: {}\n Comprimento: {} Profundidade\n Preço: {} R$ Histórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, onj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
+                self.tela_usuario.prodRastreado.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
             else:
-                self.tela_func.Info_pacote.setText('Remetente: {} Destinatário: {}\n Origem: {} Destino: {}\n Tipo de Entrega: {} Frágil: {}\n Peso: {} Altura: {}\n Comprimento: {} Profundidade\n Preço: {} R$ Histórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, onj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
+                self.tela_func.Info_pacote.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
         else:
             QtWidgets.QMessageBox.information(None, 'Erro', 'Esse código não está cadastrado!')
             
