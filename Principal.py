@@ -79,6 +79,7 @@ class Main(QMainWindow, UI_Main):
 
         self.tela_func.CadEnc.clicked.connect(self.cadastrarPacote)
         self.tela_func.pushButton_2.clicked.connect(self.buscaPacote)
+        self.tela_func.pushButton_7.clicked.connect(self.atualizaPacote)
 
         '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
         self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
@@ -103,6 +104,26 @@ class Main(QMainWindow, UI_Main):
         self.tela_admin.lineEdit.setText(''), self.tela_admin.lineEdit_2.setText(''), self.tela_admin.lineEdit_3.setText(''), self.tela_admin.lineEdit_4.setText(''), self.tela_admin.lineEdit_5.setText(''), self.tela_admin.lineEdit_6.setText(''), self.tela_admin.lineEdit_7.setText(''), self.tela_admin.lineEdit_8.setText(''), self.tela_admin.textBrowser.setText(''), self.tela_admin.textBrowser_2.setText(''), self.tela_admin.textBrowser_3.setText(''), self.tela_admin.textBrowser_4.setText('')
         self.tela_func.lineEdit.setText(''), self.tela_func.lineEdit_2.setText(''), self.tela_func.lineEdit_3.setText(''), self.tela_func.lineEdit_4.setText(''), self.tela_func.lineEdit_5.setText(''), self.tela_func.lineEdit_6.setText(''), self.tela_func.lineEdit_7.setText(''), self.tela_func.lineEdit_8.setText(''), self.tela_func.lineEdit_9.setText(''), self.tela_func.lineEdit_20.setText(''), self.tela_func.lineEdit_21.setText(''), self.tela_func.textBrowser.setText(''), self.tela_func.textBrowser_2.setText(''), self.tela_func.Info_pacote.setText('')
         self.QtStack.setCurrentIndex(0)
+
+    def atualizaPacote(self):
+        #PAC, ATT, codigo, chegou, saiu
+        cod, chegou, saiu = self.tela_func.lineEdit_9.text(), self.tela_func.lineEdit_20.text(), self.tela_func.lineEdit_21.text()
+        envia = 'PAC,ATT,{},{},{}'.format(cod, chegou, saiu)
+        client_socket.send(envia.encode())
+        recebe = client_socket.recv(4096)
+        try:
+            obj = pickle.loads(recebe)
+        except:
+            obj = recebe.decode()
+        if(isinstance(obj, Pacote)):
+            self.tela_func.Info_pacote.setText('')
+            self.tela_func.Info_pacote.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco))
+            for i in obj.historico:
+                self.tela_func.Info_pacote.append(i)
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Pacote Atualizado com Sucesso')
+            self.tela_func.lineEdit_20.setText(''), self.tela_func.lineEdit_21.setText('')
+        else:
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Esse código não está cadastrado!')
     
     def calculaPreco(self):
         envia = ''
@@ -263,9 +284,13 @@ class Main(QMainWindow, UI_Main):
             obj = recebe.decode()
         if(isinstance(obj, Pacote)):
             if(user == 'us'):
-                self.tela_usuario.prodRastreado.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
+                self.tela_usuario.prodRastreado.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco))
+                for i in obj.historico:
+                    self.tela_usuario.prodRastreado.append(i)
             else:
-                self.tela_func.Info_pacote.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:\n {}'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco, obj.historico))
+                self.tela_func.Info_pacote.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco))
+                for i in obj.historico:
+                    self.tela_func.Info_pacote.append(i)
         else:
             QtWidgets.QMessageBox.information(None, 'Erro', 'Esse código não está cadastrado!')
             
