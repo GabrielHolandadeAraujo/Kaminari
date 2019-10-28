@@ -4,6 +4,7 @@ import datetime
 import getpass
 import socket, threading, pickle
 from Pacotes import Pacote
+import mysql.connector as mysql
 
 
 
@@ -15,18 +16,6 @@ class Thread(threading.Thread):
         print('Iniciada conexão com cliente',Adress)
 
     def run(self):
-        def cadastrado(user,lista):
-            for x in lista:
-                if x.User == user:
-                    return x
-            return False
-
-        def CPF(cpf,lista):
-            for x in lista:
-                if x.Cpf == cpf:
-                    return x
-            return False
-
         def procuraPacote(codigo,lista):
             print('procurando por',codigo)
             for x in lista:
@@ -48,9 +37,12 @@ class Thread(threading.Thread):
                     retorno.append('False')
                     retorno.append('Desc')
                 elif mess[1]=='US':
-                    user=cadastrado(mess[2],users)
-                    if user != False:
-                        if user._pass == mess[3]:
+                    cursor.execute("select usuario,senha,tipodeUser from pessoa where usuario='{}'".format(mess[2]))
+                    user=cursor.fetchall()
+                    print(user)
+                    print(user[0][2])
+                    if len(user)==1 and user[0][2] == 1:
+                        if user[0][1] == mess[3]:
                             retorno.append('True')
                         else:
                             retorno.append('False')
@@ -59,9 +51,12 @@ class Thread(threading.Thread):
                         retorno.append('False')
                         retorno.append('User')
                 elif mess[1] == 'FC':
-                    user=cadastrado(mess[2],funcs)
-                    if user != False:
-                        if user._pass == mess[3]:
+                    cursor.execute("select usuario,senha,tipodeUser from pessoa where usuario='{}'".format(mess[2]))
+                    user=cursor.fetchall()
+                    print(user)
+                    print(len(user))
+                    if len(user)==1 and user[0][2] == 2:
+                        if user[0][1] == mess[3]:
                             retorno.append('True')
                         else:
                             retorno.append('False')
@@ -70,9 +65,10 @@ class Thread(threading.Thread):
                         retorno.append('False')
                         retorno.append('User')
                 elif mess[1] == 'AD':
-                    user=cadastrado(mess[2],admins)
-                    if user != False:
-                        if user._pass == mess[3]:
+                    cursor.execute("select usuario,senha,tipodeUser from pessoa where usuario='{}'".format(mess[2]))
+                    user=cursor.fetchall()
+                    if len(user)==1 and user[0][2] == 3:
+                        if user[0][1] == mess[3]:
                             retorno.append('True')
                         else:
                             retorno.append('False')
@@ -90,14 +86,17 @@ class Thread(threading.Thread):
                     dia,mes,ano=mess[7].split('/')
                     nasc=datetime.datetime(int(ano),int(mes),int(dia))
                     if mess[1]=='US':
-                        cadastro = cadastrado(user,users)
-                        if cadastro == False:
-                            Cpef=CPF(cpf,users)
-                            if Cpef == False:
+                        cursor.execute("select * from pessoa where usuario='{}'".format(user))
+                        cadastro = cursor.fetchall()
+                        if len(cadastro)==0:
+                            cursor.execute("select * from pessoa where CPF='{}'".format(cpf))
+                            Cpef=cursor.fetchall()
+                            if len(Cpef) == 0:
                                 pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
                                 print(pessoa)
                                 if isinstance(pessoa,Pessoa):
-                                    users.append(pessoa)
+                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}',{},1)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
+                                    conexao.commit()
                                     retorno.append('True')
                                 else:
                                     retorno.append(pessoa)
@@ -108,13 +107,17 @@ class Thread(threading.Thread):
                             retorno.append('False')
                             retorno.append('User')
                     elif mess[1]=='FC':
-                        cadastro = cadastrado(user,funcs)
-                        if cadastro == False:
-                            Cpef=CPF(cpf,funcs)
-                            if Cpef == False:
+                        cursor.execute("select * from pessoa where usuario='{}'".format(user))
+                        cadastro = cursor.fetchall()
+                        if len(cadastro)==0:
+                            cursor.execute("select * from pessoa where CPF='{}'".format(cpf))
+                            Cpef=cursor.fetchall()
+                            if len(Cpef) == 0:
                                 pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
+                                print(pessoa)
                                 if isinstance(pessoa,Pessoa):
-                                    funcs.append(pessoa)
+                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}',{},2)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
+                                    conexao.commit()
                                     retorno.append('True')
                                 else:
                                     retorno.append(pessoa)
@@ -125,13 +128,17 @@ class Thread(threading.Thread):
                             retorno.append('False')
                             retorno.append('User')
                     elif mess[1]=='AD':
-                        cadastro = cadastrado(user,admins)
-                        if cadastro == False:
-                            Cpef=CPF(cpf,admins)
-                            if Cpef == False:
+                        cursor.execute("select * from pessoa where usuario='{}'".format(user))
+                        cadastro = cursor.fetchall()
+                        if len(cadastro)==0:
+                            cursor.execute("select * from pessoa where CPF='{}'".format(cpf))
+                            Cpef=cursor.fetchall()
+                            if len(Cpef) == 0:
                                 pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
+                                print(pessoa)
                                 if isinstance(pessoa,Pessoa):
-                                    admins.append(pessoa)
+                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}',{},3)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
+                                    conexao.commit()
                                     retorno.append('True')
                                 else:
                                     retorno.append(pessoa)
@@ -143,24 +150,28 @@ class Thread(threading.Thread):
                             retorno.append('User')
                 elif len(mess)==12:
                     #[CAD,PAC,peso,altura,comprimento,profundidade,eh frágil?,eh expressa?,remetente,destinatario,postadoem,vaipara]
-                    peso,altura,comprimento,profundidade,eh_frágil,eh_expressa,remetente,destinatario,postadoem,vaipara = int(mess[2]),int(mess[3]),int(mess[4]),int(mess[5]),mess[6],mess[7],mess[8],mess[9],mess[10],mess[11]
+                    peso,altura,comprimento,profundidade,eh_frágil,eh_expressa,remetente,destinatario,postadoem,vaipara = float(mess[2]),float(mess[3]),float(mess[4]),float(mess[5]),mess[6],mess[7],mess[8],mess[9],mess[10],mess[11]
                     if eh_frágil == 'Sim':
-                        eh_frágil=True
+                        eh_frágil=1
                     else:
-                        eh_frágil=False
+                        eh_frágil=0
                     if eh_expressa == 'Expresso':
-                        eh_expressa=True
+                        eh_expressa=1
                     else:
-                        eh_expressa=False
+                        eh_expressa=0
                     pac=Pacote(peso,altura,profundidade,comprimento,remetente,destinatario,postadoem,vaipara,eh_expressa,eh_frágil)
                     if not(isinstance(pac,Pacote)):
                         retorno.append('False')
                         retorno.append('Desc')
                     else:
+                        cursor.execute("insert into pacotes values(DEFAULT,{},{},{},{},'{}','{}',{},{},{},'{}','{}')".format(pac.peso,pac.altura,pac.comprimento,pac.profundidade,pac.origem,pac.destino,pac.fragil,pac.tipo,pac.preco,pac.remetente,pac.destinatario))
+                        conexao.commit()
+                        cursor.execute('SELECT codigo FROM pacotes ORDER BY codigo DESC LIMIT 1')
+                        ultimo=cursor.fetchall()
+                        print(ultimo)
                         retorno.append('True')
-                        retorno.append('{}'.format(pac.codigo))
+                        retorno.append('{}'.format(ultimo[0][0]))
                         retorno.append('{}'.format(pac.preco))
-                        pacotes.append(pac)
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
@@ -223,6 +234,70 @@ admins=[]
 pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
+conexao = mysql.connect(host = 'localhost', user='root', passwd='root123456')
+cursor = conexao.cursor()
+cursor.execute('CREATE DATABASE IF NOT EXISTS Kaminari')
+cursor.execute('USE Kaminari')
+cursor.execute("""CREATE TABLE IF NOT EXISTS pacotes
+                (
+                `codigo`       bigint NOT NULL AUTO_INCREMENT ,
+                `peso`         double NOT NULL ,
+                `altura`       double NOT NULL ,
+                `comprimento`  double NOT NULL ,
+                `profundidade` double NOT NULL ,
+                `origem`       varchar(100) NOT NULL ,
+                `destino`      varchar(100) NOT NULL ,
+                `fragil`       tinyint NOT NULL ,
+                `expresso`     tinyint NOT NULL ,
+                `preco`        double NOT NULL ,
+                `remetente`    varchar(100) NOT NULL ,
+                `destinatario` varchar(100) NOT NULL ,
+
+                PRIMARY KEY (`codigo`)
+                )AUTO_INCREMENT = 1000000000000""")
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS `historico`
+                (
+                `codDeAtualizacao` bigint NOT NULL AUTO_INCREMENT,
+                `codigo`      bigint NOT NULL ,
+                `atualizacao` text NOT NULL ,
+                PRIMARY KEY (`codDeAtualizacao`),
+                FOREIGN KEY (`codigo`) REFERENCES `pacotes`(`codigo`)
+                )ENGINE=InnoDB""")
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS `pessoa`
+                (
+                `CPF`        varchar(11) NOT NULL ,
+                `nome`       varchar(100) NOT NULL ,
+                `endereco`   text NOT NULL ,
+                `sexo`       char NOT NULL ,
+                `nascimento` date NOT NULL ,
+                `email`      varchar(100) NOT NULL ,
+                `usuario`    varchar(100) NOT NULL UNIQUE ,
+                `senha`      varchar(100) NOT NULL ,
+                `tipodeUser` int NOT NULL ,
+
+                PRIMARY KEY (`CPF`)
+                )""")
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS `rastreia`
+                (
+                `idRastreio` bigint NOT NULL AUTO_INCREMENT ,
+                `CPF`        varchar(11) NOT NULL ,
+                `codigo`     bigint NOT NULL ,
+
+                PRIMARY KEY (`idRastreio`),
+                FOREIGN KEY (`CPF`) REFERENCES `pessoa` (`CPF`),
+                FOREIGN KEY (`codigo`) REFERENCES `pacotes` (`codigo`)
+                )""")
+
+# cursor.execute('create table IF NOT EXISTS cod(PacStopped bigint DEFAULT 1000000000000)')
+# cursor.execute('select * from pacotes')
+# var=cursor.fetchall()
+# if len(var)==0:
+#     cursor.execute('insert into cod values(1000000000000)')
+# else:
+
 
 if __name__ == '__main__':
     LOCALHOST = ''
