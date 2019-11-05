@@ -206,6 +206,10 @@ class Thread(threading.Thread):
                         conexao.commit()
                         cursor.execute("SELECT atualizacao FROM historico WHERE codigo = '{}' ".format(ob2.codigo))
                         ob2._historico = cursor.fetchall()
+                        l2=[]
+                        for i in ob2._historico:
+                            l2.append(i[0])
+                        ob2._historico=l2
                         retorno=ob2
                     else:
                         retorno.append('False')
@@ -223,12 +227,63 @@ class Thread(threading.Thread):
                     cursor.execute("SELECT atualizacao FROM historico WHERE codigo = '{}' ".format(ob2.codigo))
                     ob2._historico = cursor.fetchall()
                     print('{}'.format(ob2.historico))
-                    for i in range(len(ob2._historico[0])
-                        ob2._historico[0][i] = list(ob2._historico[i])
+                    l2=[]
+                    for i in ob2._historico:
+                        l2.append(i[0])
+                    ob2._historico=l2
                     retorno=ob2
                 else:
                     retorno.append('False')
-            if isinstance(retorno,Pacote):
+            elif(mess[0] == 'BUS'):
+                #[BUS] retornar todos os funcionarios e adms
+                #[BUS,cpf,2 || 3] retornar dados do funcionario/adm
+                if(len(mess)==1):
+                    cursor.execute("select nome,cpf,endereco from pessoa where tipoDeUser = 2")
+                    func=cursor.fetchall()
+                    cursor.execute("select nome,cpf,endereco from pessoa where tipoDeUser = 3")
+                    adms=cursor.fetchall()
+                    ret=[]
+                    ret2=[]
+                    aux=[]
+                    for i in func:
+                        aux.clear()
+                        for x in range(len(i)):
+                            aux.append(i[x])
+                        ret.append(aux.copy())
+                    for i in adms:
+                        aux.clear()
+                        for x in range(len(i)):
+                            aux.append(i[x])
+                        ret2.append(aux.copy())
+                    retorno.append(ret.copy())
+                    retorno.append(ret2.copy())
+                elif(len(mess)==3):
+                    cpf=mess[1]
+                    tipo=mess[2]
+                    cursor.execute('select nome,CPF,endereco,sexo,nascimento,email,tipoDeUser from pessoa where cpf="{}"'.format(cpf))
+                    user=cursor.fetchall()
+                    if(len(user)>0 and user[0][6]==int(tipo)):
+                        for x in range(len(user[0])):
+                            if isinstance(user[0][x],datetime.date):
+                                data=user[0][x]
+                                string=data.strftime("%d/%m/%Y")
+                                retorno.append(string)
+                            else:
+                                retorno.append(user[0][x])
+                        print(retorno)
+                    else:
+                        retorno.append('False')
+                else:
+                    retorno.append('False')
+                    retorno.append('Desc')
+            elif(mess[0] == 'DEL'):
+                #[DEL,cpf]
+                cpf=mess[1]
+                sql="delete from pessoa where CPF = {};".format(cpf)
+                cursor.execute(sql)
+                conexao.commit()
+                retorno.append('True')
+            if isinstance(retorno,Pacote) or type(retorno[0]) == list:
                 env = pickle.dumps(retorno)
                 self.Sock.send(env)
             else:
@@ -255,7 +310,7 @@ admins=[]
 pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
-conexao = mysql.connect(host = 'localhost', user='root', passwd='gabriel123')
+conexao = mysql.connect(host = 'localhost', user='root', passwd='root123456')
 cursor = conexao.cursor()
 cursor.execute('CREATE DATABASE IF NOT EXISTS Kaminari')
 cursor.execute('USE Kaminari')
@@ -322,7 +377,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS `rastreia`
 
 if __name__ == '__main__':
     LOCALHOST = ''
-    PORT = 7002
+    PORT = 7001
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((LOCALHOST, PORT))

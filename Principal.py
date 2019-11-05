@@ -76,6 +76,10 @@ class Main(QMainWindow, UI_Main):
 
         self.tela_admin.pushButton_6.clicked.connect(self.voltaLog)
         self.tela_admin.pushButton.clicked.connect(self.CadastrarADM)
+        self.tela_admin.pushButton_2.clicked.connect(self.todos)
+        self.tela_admin.pushButton_3.clicked.connect(self.buscaPorCPF)
+        self.tela_admin.pushButton_4.clicked.connect(self.buscaPorCPF)
+        self.tela_admin.pushButton_5.clicked.connect(self.demitir)
 
         self.tela_func.CadEnc.clicked.connect(self.cadastrarPacote)
         self.tela_func.pushButton_2.clicked.connect(self.buscaPacote)
@@ -96,8 +100,108 @@ class Main(QMainWindow, UI_Main):
 
         self.tela_acervo.sair.clicked.connect(self.entrar)'''
 
+    def todos(self):
+        envia='BUS'
+        client_socket.send(envia.encode())
+        recebe=client_socket.recv(4096)
+        lis=pickle.loads(recebe)
+        func=lis[0]
+        adm=lis[1]
+        self.tela_admin.textBrowser.setText('nome | cpf | endereco')
+        for x in func:
+            print(x)
+            self.tela_admin.textBrowser.append('{} | {} | {}'.format(x[0],x[1],x[2]))
+        self.tela_admin.textBrowser_2.setText('nome | cpf | tendereco')
+        for x in adm:
+            self.tela_admin.textBrowser_2.append('{} | {} | {}'.format(x[0],x[1],x[2]))
+    
+    def buscaPorCPF(self):
+        if self.tela_admin.tabWidget.currentIndex() == 1:
+            cpf=self.tela_admin.lineEdit_7.text()
+            if not(self.tela_admin.radioButton_5.isChecked) and not(self.tela_admin.radioButton_6.isChecked):
+                QtWidgets.QMessageBox.information(None,'Erro','Selecione funcionario ou administrador')
+            else:
+                if self.tela_admin.radioButton_5.isChecked():
+                    tipo=2
+                elif self.tela_admin.radioButton_6.isChecked():
+                    tipo=3
+                envia=[]
+                envia.append('BUS')
+                envia.append(cpf)
+                envia.append(tipo)
+                envia = '{},{},{}'.format(envia[0],envia[1],envia[2])
+                client_socket.send(envia.encode())
+                recebe=client_socket.recv(4096)
+                recebe=recebe.decode()
+                print(recebe)
+                if not('False' in recebe):
+                    nome,cpf,end,sex,nasc,email,tipo=recebe.split(',')
+                    self.tela_admin.textBrowser_3.setText('Funcionario encontrado\n\n')
+                    self.tela_admin.textBrowser_3.append('{}\n{}\n{}\n{}\n{}\n{}'.format(nome,cpf,end,sex,nasc,email))
+                else:
+                    self.tela_admin.textBrowser_3.setText('Funcionario não encontrado')
+        else:
+            cpf=self.tela_admin.lineEdit_8.text()
+            if not(self.tela_admin.radioButton_8.isChecked) and not(self.tela_admin.radioButton_7.isChecked):
+                QtWidgets.QMessageBox.information(None,'Erro','Selecione funcionario ou administrador')
+            else:
+                if self.tela_admin.radioButton_8.isChecked():
+                    tipo=2
+                elif self.tela_admin.radioButton_7.isChecked():
+                    tipo=3
+                envia=[]
+                envia.append('BUS')
+                envia.append(cpf)
+                envia.append(tipo)
+                envia = '{},{},{}'.format(envia[0],envia[1],envia[2])
+                client_socket.send(envia.encode())
+                recebe=client_socket.recv(4096)
+                recebe=recebe.decode()
+                print(recebe)
+                if not('False' in recebe):
+                    nome,cpf,end,sex,nasc,email,tipo=recebe.split(',')
+                    self.tela_admin.textBrowser_4.setText('Funcionario encontrado\n\n')
+                    self.tela_admin.textBrowser_4.append('{}\n{}\n{}\n{}\n{}\n{}'.format(nome,cpf,end,sex,nasc,email))
+                else:
+                    self.tela_admin.textBrowser_4.setText('Funcionario não encontrado')
+
+
     def esqueci(self):
         self.QtStack.setCurrentIndex(5)
+
+    def demitir(self):
+        cpf=self.tela_admin.lineEdit_8.text()
+        if not(self.tela_admin.radioButton_8.isChecked) and not(self.tela_admin.radioButton_7.isChecked):
+                QtWidgets.QMessageBox.information(None,'Erro','Selecione funcionario ou administrador')
+        else:
+            if self.tela_admin.radioButton_8.isChecked():
+                tipo=2
+            elif self.tela_admin.radioButton_7.isChecked():
+                tipo=3
+            envia=[]
+            envia.append('BUS')
+            envia.append(cpf)
+            envia.append(tipo)
+            envia = '{},{},{}'.format(envia[0],envia[1],envia[2])
+            client_socket.send(envia.encode())
+            recebe=client_socket.recv(4096)
+            recebe=recebe.decode()
+            print(recebe)
+            if not('False' in recebe):
+                nome,cpf,end,sex,nasc,email,tipo=recebe.split(',')
+                op=QtWidgets.QMessageBox.question(self,'AVISO','Remover {}'.format(nome),QtWidgets.QMessageBox.Yes|QtWidgets.QMessageBox.No)
+                if op ==QtWidgets.QMessageBox.Yes:
+                    envia='{},{}'.format('DEL',cpf)
+                    client_socket.send(envia.encode())
+                    recebe=client_socket.recv(1024)
+                    recebe=recebe.decode()
+                    if 'True' in recebe:
+                        QtWidgets.QMessageBox.information(None,'SUCESSO','Demitido com sucesso  ')
+                else:
+                    pass
+            else:
+                self.tela_admin.textBrowser_4.setText('Funcionario não encontrado')
+
 
     def voltaLog(self):
         self.tela_usuario.lineEdit.setText(''), self.tela_usuario.lineEdit_2.setText(''), self.tela_usuario.lineEdit_3.setText(''), self.tela_usuario.lineEdit_4.setText(''), self.tela_usuario.lineEdit_6.setText(''), self.tela_usuario.textBrowser.setText(''), self.tela_usuario.valorFrete.setText(''), self.tela_usuario.prodRastreado.setText('')
@@ -367,7 +471,7 @@ class Main(QMainWindow, UI_Main):
 
 if __name__ == '__main__':
     ip = input('Digite o ip da conexão:')
-    port = 7002
+    port = 7001
     addr = ((ip, port))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(addr)
