@@ -168,6 +168,9 @@ class Thread(threading.Thread):
                         conexao.commit()
                         cursor.execute('SELECT codigo FROM pacotes ORDER BY codigo DESC LIMIT 1')
                         ultimo=cursor.fetchall()
+                        atualizacao = "O objeto foi postado em {} {}.".format(mess[10], datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
+                        cursor.execute("INSERT INTO historico VALUES (DEFAULT, '{}', '{}')".format(ultimo[0][0], atualizacao))
+                        conexao.commit()
                         print(ultimo)
                         retorno.append('True')
                         retorno.append('{}'.format(ultimo[0][0]))
@@ -191,10 +194,19 @@ class Thread(threading.Thread):
                         retorno.append('T')
                         retorno.append(str(pak.preco))       
                 elif(len(mess)==5):
-                    obj=procuraPacote(mess[2],pacotes)
-                    if not(type(obj) == bool):
-                        obj.atualizaHistorico(mess[3],mess[4])
-                        retorno=obj
+                    #obj=procuraPacote(mess[2],pacotes)
+                    cursor.execute("SELECT * FROM pacotes WHERE codigo = '{}' ".format(mess[2]))
+                    lista = cursor.fetchall()
+                    if(len(lista) == 1):
+                        ob2 = Pacote(lista[0][1], lista[0][2], lista[0][4], lista[0][3], lista[0][10], lista[0][11], lista[0][5], lista[0][6], lista[0][8], lista[0][7])
+                        ob2._codigo = lista[0][0]
+                        #obj.atualizaHistorico(mess[3],mess[4])
+                        atualizacao = "O objeto chegou em {} e partiu para {} {}.".format(mess[3], mess[4], datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
+                        cursor.execute("INSERT INTO historico VALUES (DEFAULT, '{}', '{}')".format(lista[0][0], atualizacao))
+                        conexao.commit()
+                        cursor.execute("SELECT atualizacao FROM historico WHERE codigo = '{}' ".format(ob2.codigo))
+                        ob2._historico = cursor.fetchall()
+                        retorno=ob2
                     else:
                         retorno.append('False')
                 else:
@@ -202,9 +214,18 @@ class Thread(threading.Thread):
                     retorno.append('Desc')
             elif(mess[0] == 'RAS'):
                 #[RAS,codigo]
-                obj=procuraPacote(mess[1],pacotes)
-                if not(type(obj) == bool):
-                    retorno=obj
+                #obj=procuraPacote(mess[1],pacotes)
+                cursor.execute("SELECT * FROM pacotes WHERE codigo = '{}' ".format(mess[1]))
+                lista = cursor.fetchall()
+                if(len(lista) == 1):
+                    ob2 = Pacote(lista[0][1], lista[0][2], lista[0][4], lista[0][3], lista[0][10], lista[0][11], lista[0][5], lista[0][6], lista[0][8], lista[0][7])
+                    ob2._codigo = lista[0][0]
+                    cursor.execute("SELECT atualizacao FROM historico WHERE codigo = '{}' ".format(ob2.codigo))
+                    ob2._historico = cursor.fetchall()
+                    print('{}'.format(ob2.historico))
+                    for i in range(len(ob2._historico[0])
+                        ob2._historico[0][i] = list(ob2._historico[i])
+                    retorno=ob2
                 else:
                     retorno.append('False')
             if isinstance(retorno,Pacote):
@@ -234,7 +255,7 @@ admins=[]
 pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
-conexao = mysql.connect(host = 'localhost', user='root', passwd='root123456')
+conexao = mysql.connect(host = 'localhost', user='root', passwd='gabriel123')
 cursor = conexao.cursor()
 cursor.execute('CREATE DATABASE IF NOT EXISTS Kaminari')
 cursor.execute('USE Kaminari')
