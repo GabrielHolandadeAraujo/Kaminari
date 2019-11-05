@@ -95,7 +95,7 @@ class Thread(threading.Thread):
                                 pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
                                 print(pessoa)
                                 if isinstance(pessoa,Pessoa):
-                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}',{},1)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
+                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}','{}',1)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
                                     conexao.commit()
                                     retorno.append('True')
                                 else:
@@ -116,7 +116,7 @@ class Thread(threading.Thread):
                                 pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
                                 print(pessoa)
                                 if isinstance(pessoa,Pessoa):
-                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}',{},2)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
+                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}','{}',2)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
                                     conexao.commit()
                                     retorno.append('True')
                                 else:
@@ -137,7 +137,7 @@ class Thread(threading.Thread):
                                 pessoa=(buildP().Nome(nome).CPF(cpf).Sexo(sexo).Email(email).End(end).Nascimento(nasc).User(user).Pass(pasw).Constroi())
                                 print(pessoa)
                                 if isinstance(pessoa,Pessoa):
-                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}',{},3)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
+                                    cursor.execute("insert into pessoa values('{}','{}','{}','{}','{}','{}','{}','{}',3)".format(pessoa.Cpf,pessoa.Nome,pessoa.End,pessoa.Sexo,pessoa.Nasc.strftime("%Y/%m/%d"),pessoa._email,pessoa.User,pessoa.Pass))
                                     conexao.commit()
                                     retorno.append('True')
                                 else:
