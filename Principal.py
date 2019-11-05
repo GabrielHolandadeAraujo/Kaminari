@@ -285,10 +285,12 @@ class Main(QMainWindow, UI_Main):
         if(isinstance(obj, Pacote)):
             if(user == 'us'):
                 self.tela_usuario.prodRastreado.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco))
+                
                 for i in obj.historico:
                     self.tela_usuario.prodRastreado.append(i)
             else:
                 self.tela_func.Info_pacote.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco))
+                print(obj.historico)
                 for i in obj.historico:
                     self.tela_func.Info_pacote.append(i)
         else:
@@ -364,7 +366,7 @@ class Main(QMainWindow, UI_Main):
             event.ignore()
 
 if __name__ == '__main__':
-    ip = input('Digite o ip da concexão:')
+    ip = input('Digite o ip da conexão:')
     port = 7002
     addr = ((ip, port))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
