@@ -39,8 +39,6 @@ class Thread(threading.Thread):
                 elif mess[1]=='US':
                     cursor.execute("select usuario,senha,tipodeUser from pessoa where usuario='{}'".format(mess[2]))
                     user=cursor.fetchall()
-                    print(user)
-                    print(user[0][2])
                     if len(user)==1 and user[0][2] == 1:
                         if user[0][1] == mess[3]:
                             retorno.append('True')
@@ -183,6 +181,7 @@ class Thread(threading.Thread):
             elif(mess[0] == 'PAC'):
                 #Teste pacote [PAC, CAL, Peso, Altura, Comprimento, Profundidade, Fragil, Tipo]
                 #Atualiza PAC [PAC, ATT, codigo, chegou, saiu]
+                #[PAC, RAS || RMM, usuário, codigo]
                 if(len(mess) == 8):
                     peso, alt, comp, prof, frag, tipo = float(mess[2]), float(mess[3]), float(mess[4]), float(mess[5]), mess[6], mess[7]
                     if(tipo == 'Normal'):
@@ -213,6 +212,58 @@ class Thread(threading.Thread):
                         retorno=ob2
                     else:
                         retorno.append('False')
+                elif len(mess)==4:
+                    if mess[1] == 'RAS':
+                        cursor.execute('select * from pacotes where codigo = "{}"'.format(mess[3]))
+                        pac=cursor.fetchall()
+                        cursor.execute('select CPF from pessoa where usuario = "{}"'.format(mess[2]))
+                        user = cursor.fetchall()
+                        user=user[0][0]
+                        sql="select * from rastreia where CPF = '{}' and codigo = '{}';".format(user,mess[3])
+                        cursor.execute(sql)
+                        jatem=cursor.fetchall()
+                        print(jatem)
+                        if len(pac)<1 or len(jatem)>=1:
+                            retorno.append('False')
+                            retorno.append('Pac')
+                        else:
+                            print(user)
+                            cursor.execute('INSERT INTO rastreia VALUES(DEFAULT,"{}","{}")'.format(user,mess[3]))
+                            conexao.commit()
+                            retorno.append('True')
+                    elif mess[1] == 'RMM':
+                        cursor.execute('select * from pacotes where codigo = "{}"'.format(mess[3]))
+                        pac=cursor.fetchall()
+                        cursor.execute('select CPF from pessoa where usuario = "{}"'.format(mess[2]))
+                        user = cursor.fetchall()
+                        user=user[0][0]
+                        sql="select * from rastreia where CPF = '{}' and codigo = '{}';".format(user,mess[3])
+                        cursor.execute(sql)
+                        jatem=cursor.fetchall()
+                        print(jatem)
+                        if len(pac)<1 or len(jatem)<1:
+                            retorno.append('False')
+                            retorno.append('Pac')
+                        else:
+                            print(user)
+                            cursor.execute("DELETE FROM rastreia where CPF = '{}' and codigo = '{}';".format(user,mess[3]))
+                            conexao.commit()
+                            retorno.append('True')
+                elif mess[1] == 'ALL':
+                    cursor.execute('select CPF from pessoa where usuario = "{}"'.format(mess[2]))
+                    user = cursor.fetchall()
+                    user=user[0][0]
+                    cursor.execute("select pacotes.codigo, pacotes.preco, pacotes.origem, pacotes.destino from pacotes,rastreia,pessoa where pessoa.CPF=rastreia.CPF AND pacotes.codigo=rastreia.codigo AND pessoa.CPF='{}';".format(user))
+                    pacote=cursor.fetchall()
+                    ls=[]
+                    ls2=[]
+                    for i in pacote:
+                        ls.clear()
+                        for x in range(len(i)):
+                            ls.append(i[x])
+                        ls2.append(ls.copy())
+                    retorno=ls2
+                    print(retorno)
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
@@ -310,7 +361,7 @@ admins=[]
 pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
-conexao = mysql.connect(host = 'localhost', user='root', passwd='gabriel123')
+conexao = mysql.connect(host = 'localhost', user='root', passwd='root123456')
 cursor = conexao.cursor()
 cursor.execute('CREATE DATABASE IF NOT EXISTS Kaminari')
 cursor.execute('USE Kaminari')
