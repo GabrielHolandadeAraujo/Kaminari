@@ -71,6 +71,9 @@ class Main(QMainWindow, UI_Main):
         self.tela_usuario.calculaFrete.clicked.connect(self.calculaPreco)
         self.tela_usuario.pushButton_2.clicked.connect(self.voltaLog)
         self.tela_usuario.Prastreia.clicked.connect(self.buscaPacote)
+        self.tela_usuario.remPacote.clicked.connect(self.cancelaRastreio)
+        self.tela_usuario.addPacote.clicked.connect(self.adicionaPacote)
+        self.tela_usuario.pushButton.clicked.connect(self.atualizaPacote)
 
         self.tela_func.pushButton_3.clicked.connect(self.voltaLog)
 
@@ -99,6 +102,53 @@ class Main(QMainWindow, UI_Main):
         self.tela_cadastro_livro.buttonVoltar.clicked.connect(self.voltarPrincipal)
 
         self.tela_acervo.sair.clicked.connect(self.entrar)'''
+
+
+    
+    def cancelaRastreio(self):
+        #PAC, RMM, user, codPac
+        if len(self.tela_usuario.lineEdit_3.text()) > 0 and len(self.tela_usuario.prodRastreado.text()) > 0:
+            cod = self.tela_usuario.lineEdit_3.text()
+            name = self.tela_login.lineEdit.Text()
+            envia = 'PAC,RMM,{},{}'.format(name, cod)
+            client_socket.send(envia.encode())
+            recebe=client_socket.recv(4096)
+            recebe=recebe.decode()
+            if not('False' in recebe):
+                self.tela_usuario.lineEdit_3.setText('')
+                self.tela_usuario.prodRastreado.setText('')
+                QtWidgets.QMessageBox.information(None, 'Confirmação', 'Pacote removido com sucesso.')
+        else:
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Nenhum pacote foi rastreado.')
+
+    def adicionaPacote(self):
+        #PAC, RAS, user, codPac
+        if len(self.tela_usuario.lineEdit_3.text()) > 0 and len(self.tela_usuario.prodRastreado.text()) > 0:
+            cod = self.tela_usuario.lineEdit_3.text()
+            name = self.tela_login.lineEdit.Text()
+            envia = 'PAC,RAS,{},{}'.format(name, cod)
+            client_socket.send(envia.encode())
+            recebe=client_socket.recv(4096)
+            recebe=recebe.decode()
+            if not('False' in recebe):
+                self.tela_usuario.lineEdit_3.setText('')
+                self.tela_usuario.prodRastreado.setText('')
+                QtWidgets.QMessageBox.information(None, 'Confirmação', 'Pacote adicionado com sucesso.')
+        else:
+            QtWidgets.QMessageBox.information(None, 'Erro', 'Nenhum pacote foi rastreado.')
+                    
+    def atualizaPacotes(self):
+        #PAC, ALL, user
+        name = self.tela_login.lineEdit.Text() 
+        envia = 'PAC,ALL,{}'.format(name)
+        client_socket.send(envia.encode())
+        recebe=client_socket.recv(4096)
+        lis=pickle.loads(recebe)
+        pacotes=lis[0]
+        self.tela_usuario.textBrowser.setText('Código | Preço | Origem | Destino')
+        for x in pacotes:
+            print(x)
+            self.tela_usuario.textBrowser.append('{} | {} | {}'.format(x[0],x[1],x[2]))
 
     def todos(self):
         envia='BUS'
@@ -411,7 +461,7 @@ class Main(QMainWindow, UI_Main):
             recebe = client_socket.recv(1024)
             if('T' in recebe.decode()):
                 self.QtStack.setCurrentIndex(2)
-                self.tela_login.lineEdit.setText(''), self.tela_login.lineEdit_2.setText('')
+                #self.tela_login.lineEdit.setText(''), self.tela_login.lineEdit_2.setText('')
             elif('Pass' in recebe.decode()):
                 QtWidgets.QMessageBox.information(None,'Erro','Senha Inválida!')
             elif('User' in recebe.decode()):
