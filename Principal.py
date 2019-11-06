@@ -73,7 +73,7 @@ class Main(QMainWindow, UI_Main):
         self.tela_usuario.Prastreia.clicked.connect(self.buscaPacote)
         self.tela_usuario.remPacote.clicked.connect(self.cancelaRastreio)
         self.tela_usuario.addPacote.clicked.connect(self.adicionaPacote)
-        self.tela_usuario.pushButton.clicked.connect(self.atualizaPacote)
+        self.tela_usuario.pushButton.clicked.connect(self.atualizaPacotes)
 
         self.tela_func.pushButton_3.clicked.connect(self.voltaLog)
 
@@ -84,7 +84,7 @@ class Main(QMainWindow, UI_Main):
         self.tela_admin.pushButton_4.clicked.connect(self.buscaPorCPF)
         self.tela_admin.pushButton_5.clicked.connect(self.demitir)
 
-        self.tela_func.CadEnc.clicked.connect(self.cadastrarPacote)
+        self.tela_func.CadEnc.clicked.connect(self.calculaPreco)
         self.tela_func.pushButton_2.clicked.connect(self.buscaPacote)
         self.tela_func.pushButton_7.clicked.connect(self.atualizaPacote)
 
@@ -107,9 +107,9 @@ class Main(QMainWindow, UI_Main):
     
     def cancelaRastreio(self):
         #PAC, RMM, user, codPac
-        if len(self.tela_usuario.lineEdit_3.text()) > 0 and len(self.tela_usuario.prodRastreado.text()) > 0:
+        if len(self.tela_usuario.lineEdit_3.text()) > 0:
             cod = self.tela_usuario.lineEdit_3.text()
-            name = self.tela_login.lineEdit.Text()
+            name = self.tela_login.lineEdit.text()
             envia = 'PAC,RMM,{},{}'.format(name, cod)
             client_socket.send(envia.encode())
             recebe=client_socket.recv(4096)
@@ -118,14 +118,16 @@ class Main(QMainWindow, UI_Main):
                 self.tela_usuario.lineEdit_3.setText('')
                 self.tela_usuario.prodRastreado.setText('')
                 QtWidgets.QMessageBox.information(None, 'Confirmação', 'Pacote removido com sucesso.')
+            else:
+                QtWidgets.QMessageBox.information(None, 'Erro', 'Esse pacote não existe ou não está sendo rastreado por você.')
         else:
             QtWidgets.QMessageBox.information(None, 'Erro', 'Nenhum pacote foi rastreado.')
 
     def adicionaPacote(self):
         #PAC, RAS, user, codPac
-        if len(self.tela_usuario.lineEdit_3.text()) > 0 and len(self.tela_usuario.prodRastreado.text()) > 0:
+        if len(self.tela_usuario.lineEdit_3.text()) > 0:
             cod = self.tela_usuario.lineEdit_3.text()
-            name = self.tela_login.lineEdit.Text()
+            name = self.tela_login.lineEdit.text()
             envia = 'PAC,RAS,{},{}'.format(name, cod)
             client_socket.send(envia.encode())
             recebe=client_socket.recv(4096)
@@ -134,21 +136,23 @@ class Main(QMainWindow, UI_Main):
                 self.tela_usuario.lineEdit_3.setText('')
                 self.tela_usuario.prodRastreado.setText('')
                 QtWidgets.QMessageBox.information(None, 'Confirmação', 'Pacote adicionado com sucesso.')
+            else:
+                QtWidgets.QMessageBox.information(None, 'Erro', 'Esse pacote não existe ou você já está rastreando ele.')
         else:
             QtWidgets.QMessageBox.information(None, 'Erro', 'Nenhum pacote foi rastreado.')
                     
     def atualizaPacotes(self):
         #PAC, ALL, user
-        name = self.tela_login.lineEdit.Text() 
+        name = self.tela_login.lineEdit.text() 
         envia = 'PAC,ALL,{}'.format(name)
         client_socket.send(envia.encode())
         recebe=client_socket.recv(4096)
         lis=pickle.loads(recebe)
-        pacotes=lis[0]
+        pacotes=lis
         self.tela_usuario.textBrowser.setText('Código | Preço | Origem | Destino')
         for x in pacotes:
             print(x)
-            self.tela_usuario.textBrowser.append('{} | {} | {}'.format(x[0],x[1],x[2]))
+            self.tela_usuario.textBrowser.append('{} | {} R$ | {} | {}'.format(x[0],x[1],x[2], x[3]))
 
     def todos(self):
         envia='BUS'
@@ -282,19 +286,36 @@ class Main(QMainWindow, UI_Main):
     def calculaPreco(self):
         envia = ''
         recebe = ''
-        peso, alt, comp, prof = self.tela_usuario.lineEdit_6.text(), self.tela_usuario.lineEdit_4.text(), self.tela_usuario.lineEdit.text(), self.tela_usuario.lineEdit_2.text()
-        if(self.tela_usuario.radioButton.isChecked()):
-            frag = 'Não'
-        elif(self.tela_usuario.radioButton_2.isChecked()):
-            frag = 'Sim'
+        if len(self.tela_func.lineEdit_3.text()) > 0 and len(self.tela_func.lineEdit_8.text()) > 0 and len(self.tela_func.lineEdit_7.text()) > 0 and len(self.tela_func.lineEdit_5.text()) > 0:
+            peso, alt, comp, prof = self.tela_func.lineEdit_6.text(), self.tela_func.lineEdit_4.text(), self.tela_func.lineEdit.text(), self.tela_func.lineEdit_2.text()
+            user = 'func'
+            if(self.tela_func.radioButton.isChecked()):
+                frag = 'Não'
+            elif(self.tela_func.radioButton_2.isChecked()):
+                frag = 'Sim'
+            else:
+                QtWidgets.QMessageBox.information(None,'Erro','O pacote é fragil?')
+            if(self.tela_func.radioButton_3.isChecked()):
+                tipo = 'Normal'
+            elif(self.tela_func.radioButton_4.isChecked()):
+                tipo = 'Expresso'
+            else:
+                QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de entrega!')
         else:
-            QtWidgets.QMessageBox.information(None,'Erro','O pacote é fragil?')
-        if(self.tela_usuario.radioButton_3.isChecked()):
-            tipo = 'Normal'
-        elif(self.tela_usuario.radioButton_4.isChecked()):
-            tipo = 'Expresso'
-        else:
-            QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de entrega!')
+            peso, alt, comp, prof = self.tela_usuario.lineEdit_6.text(), self.tela_usuario.lineEdit_4.text(), self.tela_usuario.lineEdit.text(), self.tela_usuario.lineEdit_2.text()
+            user = 'user'
+            if(self.tela_usuario.radioButton.isChecked()):
+                frag = 'Não'
+            elif(self.tela_usuario.radioButton_2.isChecked()):
+                frag = 'Sim'
+            else:
+                QtWidgets.QMessageBox.information(None,'Erro','O pacote é fragil?')
+            if(self.tela_usuario.radioButton_3.isChecked()):
+                tipo = 'Normal'
+            elif(self.tela_usuario.radioButton_4.isChecked()):
+                tipo = 'Expresso'
+            else:
+                QtWidgets.QMessageBox.information(None,'Erro','Selecione o tipo de entrega!')
         envia = 'PAC,CAL,{},{},{},{},{},{}'.format(peso, alt, comp, prof, frag, tipo)
         client_socket.send(envia.encode())
         recebe = client_socket.recv(1024)
@@ -302,7 +323,12 @@ class Main(QMainWindow, UI_Main):
             valor = ''
             valor = recebe.decode()
             valor = valor.split(',')
-            self.tela_usuario.valorFrete.setText('{} R$'.format(valor[1]))
+            if(user == 'user'):
+                self.tela_usuario.valorFrete.setText('{} R$'.format(valor[1]))
+            elif(user == 'func'):
+                op=QtWidgets.QMessageBox.question(self,'AVISO','Preço {} R$\nDeseja cadastrar esse pacote?'.format(valor[1]),QtWidgets.QMessageBox.Yes|QtWidgets.QMessageBox.No)
+                if(op == QtWidgets.QMessageBox.Yes):
+                    self.cadastrarPacote()
         else:
             QtWidgets.QMessageBox.information(None,'Erro','Preencha todos os campos!')
 
