@@ -88,8 +88,6 @@ class Main(QMainWindow, UI_Main):
         self.tela_func.pushButton_2.clicked.connect(self.buscaPacote)
         self.tela_func.pushButton_7.clicked.connect(self.atualizaPacote)
 
-
-    
     def cancelaRastreio(self):
         #PAC, RMM, user, codPac
         if len(self.tela_usuario.lineEdit_3.text()) > 0:
@@ -465,8 +463,6 @@ class Main(QMainWindow, UI_Main):
         else:
             QtWidgets.QMessageBox.information(None, 'Erro', 'Esse código não está cadastrado!')
             
-
-
     def entrar(self):
         enviar = 'LGIN'
         recebe = ''
