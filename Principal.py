@@ -88,21 +88,6 @@ class Main(QMainWindow, UI_Main):
         self.tela_func.pushButton_2.clicked.connect(self.buscaPacote)
         self.tela_func.pushButton_7.clicked.connect(self.atualizaPacote)
 
-        '''self.tela_inicio.botao_entrar.clicked.connect(self.entrar)
-        self.tela_inicio.botao_criar_conta.clicked.connect(self.openCriarConta)
-
-        self.tela_cadastro.botao_salvar.clicked.connect(self.criarConta)
-        self.tela_cadastro.toolButton.clicked.connect(self.voltarInicio)
-
-        self.tela_principal.cadastrar_novo_livro.clicked.connect(self.openCadastrarLivro)
-        self.tela_principal.ver_acervo.clicked.connect(self.openAcervoLivro)
-        self.tela_principal.sair.clicked.connect(self.voltarInicio)
-
-        self.tela_cadastro_livro.botao_salvar_livro.clicked.connect(self.cadastrarLivro)
-        self.tela_cadastro_livro.buttonVoltar.clicked.connect(self.voltarPrincipal)
-
-        self.tela_acervo.sair.clicked.connect(self.entrar)'''
-
 
     
     def cancelaRastreio(self):
@@ -148,11 +133,15 @@ class Main(QMainWindow, UI_Main):
         client_socket.send(envia.encode())
         recebe=client_socket.recv(4096)
         lis=pickle.loads(recebe)
-        pacotes=lis
-        self.tela_usuario.textBrowser.setText('Código | Preço | Origem | Destino')
-        for x in pacotes:
-            print(x)
-            self.tela_usuario.textBrowser.append('{} | {} R$ | {} | {}'.format(x[0],x[1],x[2], x[3]))
+        if(type(lis[0]) == list and type(lis[0][0]) != str):
+            pacotes=lis
+            self.tela_usuario.textBrowser.setText('Código | Preço | Origem | Destino')
+            for x in pacotes:
+                print(x)
+                self.tela_usuario.textBrowser.append('{} | {} R$ | {} | {}'.format(x[0],x[1],x[2], x[3]))
+        else:
+            QtWidgets.QMessageBox.information(None,'Erro','Não há pacotes cadastrados.')
+            
 
     def todos(self):
         envia='BUS'
@@ -527,23 +516,9 @@ class Main(QMainWindow, UI_Main):
     def criarConta(self):
         self.QtStack.setCurrentIndex(1)
 
-    def openCadastrarLivro(self):
-        self.QtStack.setCurrentIndex(3)
-
-    def openAcervoLivro(self):
-        self.QtStack.setCurrentIndex(4)
-
     def voltarPrincipal(self):
         self.QtStack.setCurrentIndex(2)
 
-    def cadastrarLivro(self):
-        self.QtStack.setCurrentIndex(2)
-    def closeEvent(self, event):
-        reply = QMessageBox.question(self, 'Quit', 'Are You Sure to Quit?', QMessageBox.No | QMessageBox.Yes)
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
 
 if __name__ == '__main__':
     ip = input('Digite o ip da conexão:')
