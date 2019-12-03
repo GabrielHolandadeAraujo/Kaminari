@@ -264,6 +264,8 @@ class Thread(threading.Thread):
                         ls2.append(ls.copy())
                     retorno=ls2
                     print(retorno)
+                    if len(retorno)==0:
+                        retorno.append(['false'])
                 else:
                     retorno.append('False')
                     retorno.append('Desc')
