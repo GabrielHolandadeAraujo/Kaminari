@@ -363,7 +363,7 @@ admins=[]
 pacotes=[]
 admins.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
 funcs.append(Pessoa('admin',None,None,None,None,None,'admin','admin'))
-conexao = mysql.connect(host = 'localhost', user='root', passwd='root123456')
+conexao = mysql.connect(host = 'localhost', user='root', passwd='gabriel123')
 cursor = conexao.cursor()
 cursor.execute('CREATE DATABASE IF NOT EXISTS Kaminari')
 cursor.execute('USE Kaminari')

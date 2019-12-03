@@ -278,7 +278,7 @@ class Main(QMainWindow, UI_Main):
             self.tela_func.Info_pacote.setText('Remetente: {} | Destinatário: {}\n Origem: {} | Destino: {}\n É expressa: {} | É frágil: {}\n Peso: {}kg\n Altura: {}cm | Comprimento: {}cm | Profundidade: {}cm\n Preço: {} R$ \nHistórico:'.format(obj.remetente, obj.destinatario, obj.origem, obj.destino, obj.tipo, obj.fragil, obj.peso, obj.altura, obj.comprimento, obj.profundidade, obj.preco))
             for i in obj.historico:
                 self.tela_func.Info_pacote.append(i)
-            QtWidgets.QMessageBox.information(None, 'Erro', 'Pacote Atualizado com Sucesso')
+            QtWidgets.QMessageBox.information(None, 'Confirmação', 'Pacote Atualizado com Sucesso')
             self.tela_func.lineEdit_20.setText(''), self.tela_func.lineEdit_21.setText('')
         else:
             QtWidgets.QMessageBox.information(None, 'Erro', 'Esse código não está cadastrado!')
