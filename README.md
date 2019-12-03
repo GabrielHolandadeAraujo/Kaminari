@@ -1,8 +1,11 @@
-Kaminari Rastreamentos
-O kaminari Rastreamentos é uma aplicação para cadastro e rastreio de pacotes. Com ele o usuário pode calcular o valor do envio do pacote de maneira fácil e rápida, sem precisar sair de casa. O sistema permite o rastreio de pacotes, sejam os que está enviando ou recebendo. Além disso, a aplicação também permite a gerência do serviço de entrega, possibilitando aos funcionários realizar o cadastraro e atualizar as informações de envio os pacotes, e também dá controle ao administrador para gerenciar seus funcionários.
+﻿Kaminari Rastreamentos
+
+O kaminari rastreamentos é um sistema de rastreamento de encomendas, o sistema permitirá o cadastro de usuários e funcionários. O usuário poderá fazer o pré-cadastro de alguma encomenda, e também permitirá que ele rastreie a encomenda cadastrada ou  a encomenda que fez pedido e elas serão identificadas por códigos gerados pelo sistema. O funcionário pode cadastrar encomendas e formalizar ou alterar as encomendas pré-cadastradas pelos usuários, e poderá ver e atualizar todas as informações de posição das encomendas durante o percurso. O administrador além das funcionalidades padrões, poderá gerenciar os funcionários cadastrados no sistema. 
 
 Requisitos
+
 Python >= 3.6
+
 PyQt5
 
 
